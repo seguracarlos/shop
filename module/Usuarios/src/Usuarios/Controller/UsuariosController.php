@@ -11,6 +11,7 @@ namespace Usuarios\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Model\User;
 
 class UsuariosController extends AbstractActionController
 {
@@ -19,3 +20,7 @@ class UsuariosController extends AbstractActionController
         return new ViewModel();
     }
 }
+
+
+
+ ?>

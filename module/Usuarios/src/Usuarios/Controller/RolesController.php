@@ -7,12 +7,12 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
- namespace Usuario\Controller;
+ namespace Usuarios\Controller;
 
  use Zend\Mvc\Controller\AbstractActionController;
  use Zend\View\Model\ViewModel;
 
- class UsuarioController extends AbstractActionController
+ class RolesController extends AbstractActionController
  {
  	public $dbAdapter;
 
@@ -23,10 +23,10 @@
     public function registroAction(){
 		if($this->getRequest()->isPost()){
 		$this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-        $u=new Usuarios($this->dbAdapter);
+        $u=new Roles($this->dbAdapter);
 		$data=$this->request->getPost();
-		$u->addUsuarios($data);
-	return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/application/roles/registro/1');
+		$u->addRoles($data);
+	return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/usuraios/roles/add/1');
 		}else{
 		$form=new Formularios("form");
 		$id=(int)$this->params()->fromRoute('id',0);
@@ -41,22 +41,20 @@
 	public function modificarAction() {
         $id=( int ) $this ->params ( 'id' );
         $this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-        $u=new Usuarios($this->dbAdapter);
-        $usuario=$u->getUsuarioPorId($id);
-        $form=new Formularios("form");
-        $form->setData($usuario);
+        $u=new Roles($this->dbAdapter);
+        $usuario=$u->getRolesPorId($id);
+        $form=new RolesForm("form");
+        $form->setData($rol);
         $vista=array("form"=>$form);
         if($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
             if($form->isValid()){
                 $id=$this->request->getPost("id");
-                $nombre=$this->request->getPost("nombre");
-                $correo=$this->request->getPost("correo");
-                $contrasena=$this->request->getPost("contrasena");
-                 $telf=$this->request->getPost("telf");
-                $update=$u->updateUsuarios($id, $nombre,$correo,$contrasena,$telf);
+                $nombre=$this->request->getPost("rol_name");
+                $correo=$this->request->getPost("description");
+                $update=$u->updateUsuarios($id, $rol_name,$description);
                 if($update==true){
-                    $this->flashMessenger()->setNamespace("add_correcto")->addMessage("Usuario modificado correctamente");
+                    $this->flashMessenger()->setNamespace("add_correcto")->addMessage("Rol modificado correctamente");
                     return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/application/index/index');
                 }else{
                     $this->flashMessenger()->setNamespace("duplicado")->addMessage("El usuario se ha modificado");
@@ -74,14 +72,14 @@
         public function eliminarAction(){
             $id=(int)$this->params('id');
             $this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-            $u=new Usuarios($this->dbAdapter);
-            $delete=$u->deleteUsuarios($id);
+            $u=new Roles($this->dbAdapter);
+            $delete=$u->deleteRoles($id);
                 if($delete==true){
-            $this->flashMessenger()->setNamespace("eliminado")->addMessage("Usuario eliminado correctamente");
+            $this->flashMessenger()->setNamespace("eliminado")->addMessage("Rol eliminado correctamente");
                }else{
             $this->flashMessenger()->setNamespace("eliminado")->addMessage("El usuario no a podido ser eliminado");
                }   
-       return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/application/');
+       return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/usuarios/');
     }
     	
 }
