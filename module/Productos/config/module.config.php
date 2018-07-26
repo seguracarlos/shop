@@ -3,7 +3,8 @@
 return array(
         'controllers' => array(
             'invokables' => array(
-                'Productos\Controller\Productos' => 'Productos\Controller\ProductosController'
+                'Productos\Controller\Productos' => 'Productos\Controller\ProductosController',
+                'Productos\Controller\Productos' => 'Productos\Controller\CategoryController'
             ),
         ),
 

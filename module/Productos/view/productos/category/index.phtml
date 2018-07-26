@@ -1,0 +1,45 @@
+<head>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<h1><?php echo $this->titulo ?></h1>
+<a class="btn btn-success" href="<?php echo $this->basePath() ?>/productos/category/registroCateg ">Nuevo</a>
+<table style="width:400px, text-aling:lefth">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Description</th>
+    </tr>
+    <?php foreach ($this->datos as $dato ) { ?>
+        <tr style="background-color:<?php echo $this->cycle(array("#FOFOFO","#FFFFFF"))->next() ?>">
+        
+            <td><?php echo $dato["category_id"] ?></td>
+            <td><?php echo $dato["category_name" ] ?></td>
+            <td><?php echo $dato["description"] ?></td>
+            <td>
+
+            </td>
+            <td>
+                <a class="btn btn-info" href="<?php echo $this->basePath() ?>/application/formulario/ver/ <?php echo $dato["id"] ?>">Info</a>
+            </td>
+            <td>
+                
+            </td>
+            <td>
+                <a class="btn btn-primary" href="<?php echo $this->basePath() ?>/application/formulario/modificar/ <?php echo $dato["id"] ?>">Modificar</a>
+            </td>
+            <td>
+                
+            </td>
+            <td>
+                <a class="btn btn-danger" href="<?php echo $this->basePath() ?>/application/formulario/eliminar/ <?php echo $dato["id"] ?>" onClick="swal('¡Haz eliminado al usuario', 'El usuario fue eliminado correctamente', 'success');" >Eliminar</a>
+            </td>
+        </tr>
+    <?php } ?>
+
+    <?php 
+    $this->cycle()->assign(array("#FOFOFO", "#FFFFFF"));
+    $this->cycle()->prev();
+    ?>
+</table>
+
+

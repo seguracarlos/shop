@@ -1,0 +1,42 @@
+<h1><?php print_r($this->titulo)?> </h1>
+<?php
+$form= $this->form;
+$form->prepare();
+
+//Manda los atributos por el metodo POST
+$form->setAttributes(array(
+	'action' =>$this->url.'/productos/category/registroCateg',
+	'method' => 'post'
+));
+
+$formLabel = $this->plugin('formLabel');
+
+echo $this->form()->openTag($form);
+
+?>
+
+
+<a href="<?php echo $this->basePath() ?>/productos/category">Volver Atrás</a>
+
+<div class="form_element">
+<?php
+	$name = $form->get('categnom');
+	echo $formLabel->openTag() . $name->getOption('label'). " ";
+	echo $this->formInput($name);;
+	echo $formLabel->closeTag();
+?>
+</div>
+<hr />
+<div class="form_element">
+
+<?php
+	$desc = $form->get('desc');
+	echo $formLabel->openTag() . $desc->getOption('label'). " ";
+	echo $this->formInput($desc);
+	echo $formLabel->closeTag();
+?>
+</div>
+<hr />
+
+<?php echo $this->formElement($form->get('send')) ?>
+<?php echo $this->form()->closeTag() ?>
