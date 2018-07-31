@@ -1,6 +1,6 @@
 <?php
 
-namespace Usuario\Model;
+namespace Users\Model;
 
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Db\Adapter\Adapter;
@@ -19,8 +19,8 @@ class Roles extends TableGateway
 
 	private function cargaAtributos($datos=array()){
          $this->id=$datos["id"];
-		 $this->nombre=$datos["rol_name"];
-		 $this->correo=$datos["description"];
+		 $this->rol_name=$datos["rol_name"];
+		 $this->description=$datos["description"];
 	}
 
 	public function  getRoles(){

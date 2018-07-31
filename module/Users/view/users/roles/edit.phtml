@@ -8,6 +8,7 @@
 
  <?php
  $form = $this->form;
+ $form->prepare();
  $form->setAttribute('action', $this->url(
      'roles',
      array(
@@ -15,7 +16,7 @@
          'id'     => $this->id,
      )
  ));
- $form->prepare();
+// $form->prepare();
 
  echo $this->form()->openTag($form);
  echo $this->formHidden($form->get('id'));

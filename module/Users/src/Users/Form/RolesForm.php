@@ -1,20 +1,24 @@
 <?php
- namespace Usuarios\Form;
+namespace Users\Form;
 
- use Zend\Form\Form;
+use Zend\Captcha\AdapterInterface as CaptchaAdapter;
+use Zend\Form\Element;
+use Zend\Form\Form;
+use Zend\Captcha;
+use Zend\Form\Factory;
 
- class UsuariosForm extends Form
+ class RolesForm extends Form
  {
  	public function __construct($name =null)
  	{
- 		parent::__construct('usuarios');
+ 		parent::__construct($name);
 
  		$this->add(array(
  			'name'=>'id',
  			'type'=>'Hidden',
  		));
 
- 		$select=new Element\Select('rol_id');
+	    $select=new Element\Select('rol_name');
 	    $select->setLabel('selecciona tu rol');
 	    $select->setAttribute('multiple', true);
 	    $select->setValueOptions(array(
@@ -24,19 +28,12 @@
 	    ));
 	    $this->add($select);
 	
-
+	
  		$this->add(array(
-             'name' => 'email',
+             'name' => 'description',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Email',
-             ),
-         ));
- 		$this->add(array(
-             'name' => 'password',
-             'type' => 'Text',
-             'options' => array(
-                 'label' => 'Password',
+                 'label' => 'Description',
              ),
          ));
  		$this->add(array(

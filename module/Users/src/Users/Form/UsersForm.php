@@ -1,20 +1,20 @@
 <?php
- namespace Usuario\Form;
+ namespace Users\Form;
 
  use Zend\Form\Form;
 
- class RolesForm extends Form
+ class UsersForm extends Form
  {
  	public function __construct($name =null)
  	{
- 		parent::__construct('roles');
+ 		parent::__construct('usuarios');
 
  		$this->add(array(
  			'name'=>'id',
  			'type'=>'Hidden',
  		));
 
-	    $select=new Element\Select('rol_name');
+ 		$select=new Element\Select('rol_id');
 	    $select->setLabel('selecciona tu rol');
 	    $select->setAttribute('multiple', true);
 	    $select->setValueOptions(array(
@@ -24,12 +24,19 @@
 	    ));
 	    $this->add($select);
 	
-	
+
  		$this->add(array(
-             'name' => 'description',
+             'name' => 'email',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Description',
+                 'label' => 'Email',
+             ),
+         ));
+ 		$this->add(array(
+             'name' => 'password',
+             'type' => 'Text',
+             'options' => array(
+                 'label' => 'Password',
              ),
          ));
  		$this->add(array(
