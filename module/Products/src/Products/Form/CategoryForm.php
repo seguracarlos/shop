@@ -1,6 +1,6 @@
 <?php
 
-namespace Productos\Form;
+namespace Products\Form;
 
 use Zend\Captcha\AdapterInterface as CaptchaAdapter;
 use Zend\Form\Element;

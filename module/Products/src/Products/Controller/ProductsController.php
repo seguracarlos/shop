@@ -7,12 +7,12 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Productos\Controller;
+namespace Products\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class ProductosController extends AbstractActionController
+class ProductsController extends AbstractActionController
 {
     public function indexAction()
     {
