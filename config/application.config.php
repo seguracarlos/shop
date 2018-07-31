@@ -9,8 +9,13 @@ return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
         'Application',
+<<<<<<< HEAD
         'Products',
         'Usuarios',
+=======
+        'Productos',
+        'Users',
+>>>>>>> 422c2b74b5e3a2cb0a1907665cabd7d730465f32
     ),
 
     // These are various options for the listeners attached to the ModuleManager

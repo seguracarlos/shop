@@ -1,6 +1,6 @@
 <?php 
 
- namespace Usuarios\Model;
+ namespace Users\Model;
 
   // Add these import statements
   use Zend\Db\TableGateway\TableGateway;
@@ -8,7 +8,7 @@
   use Zend\Db\Sql\Sql;
   use Zend\Db\ResultSet\ResultSet;
 
- class Usuario extends TableGateway
+ class Users extends TableGateway
  {
      private $id;
      private $rol_id;
@@ -17,7 +17,7 @@
     
 
     public function __construct(Adapter $adapter = null, $databaseSchema=null,ResultSet $selectResultPrototype =null){
-        return parent::__construct('usuario',$adapter, $databaseSchema,$selectResultPrototype);   
+        return parent::__construct('users',$adapter, $databaseSchema,$selectResultPrototype);   
     }
 
     private function cargaAtributos($datos=array()){
@@ -27,12 +27,12 @@
          $this->password=$datos["password"];
     }
 
-    public function  getUsuario(){
+    public function  getUser(){
         $datos=$this->select();
         return $datos->toArray();
     }
 
-    public function getUsuarioPorId($id){
+    public function getUserPorId($id){
         $id=(int) $id;
         $rowset=$this->select(array('id'=>$id));
         $row=$rowset->current();
@@ -42,7 +42,7 @@
         return $row;
     }
 
-    public function addUsuarios($data=array()){
+    public function addUser($data=array()){
         self::cargaAtributos($data);
         $array=array(
             "rol_id"=>$this->rol_id,
@@ -52,7 +52,7 @@
         $this->insert($array);
     }
 
-    public function updateUsuarios($id,$rol_id,$email,$password){
+    public function updateUser($id,$rol_id,$email,$password){
         $update=$this->update(array(
             "rol_id"=>$rol_id,
             "email"=>$email,
@@ -62,7 +62,7 @@
         return $update;
 
     }
-     public function deleteUsuarios($id){
+     public function deleteUser($id){
          $delete=$this->delete(array("id"=>$id));
          return $delete;
         }

@@ -7,13 +7,13 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Usuarios\Controller;
+namespace Users\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Zend\Model\User;
+use Zend\Model\Usuarios;
 
-class UsuariosController extends AbstractActionController
+class UsersController extends AbstractActionController
 {
     public function indexAction()
     {
