@@ -10,8 +10,13 @@ return array(
     'modules' => array(
         'Application',
 <<<<<<< HEAD
+<<<<<<< HEAD
         'Products',
         'Usuarios',
+=======
+        'Productos',
+        'Users',
+>>>>>>> 422c2b74b5e3a2cb0a1907665cabd7d730465f32
 =======
         'Productos',
         'Users',
