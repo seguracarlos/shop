@@ -48,7 +48,7 @@
              'name' => 'user_name',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Nombre de Usuario',
+                 'label' => 'Nombre de Usuario;',
              ),
              'attributes'=> array(
  				'type' => 'text',
@@ -62,7 +62,7 @@
              'name' => 'first_name',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Nombre',
+                 'label' => 'Nombre;',
              ),
              'attributes'=> array(
  				'type' => 'text',
@@ -76,7 +76,7 @@
              'name' => 'last_name',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Apellido',
+                 'label' => 'Apellido:',
              ),
              'attributes'=> array(
  				'type' => 'text',
@@ -90,7 +90,7 @@
              'name' => 'address',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Direccion',
+                 'label' => 'Direccion:',
              ),
              'attributes'=> array(
  				'type' => 'text',
@@ -104,7 +104,7 @@
              'name' => 'telephone',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Telefono',
+                 'label' => 'Telefono:',
              ),
 
          ));
