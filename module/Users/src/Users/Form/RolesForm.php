@@ -32,7 +32,7 @@ use Zend\Form\Factory;
              'name' => 'description',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Descripcion:',
+                 'label' => 'Descripcion',
              ),
              'attributes'=> array(
  				'type' => 'textarea',
