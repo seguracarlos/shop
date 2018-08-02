@@ -1,5 +1,5 @@
 <?php
-namespace Application\Model\Entity;
+namespace Products\Model\Entity;
 use Zend\Db\Tablegateway\Tablegateway;
 use Zend\Db\Adapter\Adapter;
 
