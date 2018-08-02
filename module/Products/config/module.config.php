@@ -4,7 +4,7 @@ return array(
         'controllers' => array(
             'invokables' => array(
                 'Products\Controller\Products' => 'Products\Controller\ProductsController',
-                'Products\Controller\Products' => 'Products\Controller\CategoryController'
+                'Products\Controller\Products' => 'Products\Controller\CategoryController',
             ),
         ),
 
