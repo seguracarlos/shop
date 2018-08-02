@@ -7,8 +7,7 @@ use Zend\Form\Form;
 use Zend\Captcha;
 use Zend\Form\Factory;
 
- class RolesForm extends Form
- {
+ class RolesForm extends Form {
  	public function __construct($name =null)
  	{
  		parent::__construct($name);
@@ -33,9 +32,17 @@ use Zend\Form\Factory;
              'name' => 'description',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Description',
+                 'label' => 'Descripcion',
              ),
+             'attributes'=> array(
+ 				'type' => 'textarea',
+ 				'class' => 'input',
+ 				'required' =>true,
+ 				'id' 	=> 'description'
+ 			),
          ));
+
+ 		
  		$this->add(array(
 	        'name'=>'zend',
 	        'attributes'=>array(
