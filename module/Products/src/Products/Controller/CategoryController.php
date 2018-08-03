@@ -29,7 +29,7 @@ class CategoryController extends AbstractActionController
     	);
         return new ViewModel($titulo);
     }
-    public function CategRecordAction()
+    public function addCategoryAction()
     {
         
         if ($this->getRequest()->isPost()) 
@@ -48,7 +48,7 @@ class CategoryController extends AbstractActionController
                 
             );
             return $this->redirect()->toUrl(
-              $this->getRequest()->getBaseUrl().'/products/category'
+              $this->getRequest()->getBaseUrl().'/products'
          );
             
         }else
@@ -65,5 +65,66 @@ class CategoryController extends AbstractActionController
             );
             return new ViewModel($valores);
             }
+    }
+    public function viewAction()
+    {
+        $this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+        $u=new Category($this->dbAdapter);
+        $form = new CategoryForm("form");
+        $id = (int) $this->params()->fromRoute('id',0);
+        $titulo=array(
+            "titulo"    =>"Mostrando detalle de la categoria",
+            "form"      =>$form,
+            "datos"     => $u->getCategoriaPorId($id)
+
+        );
+        return new ViewModel($titulo);
+    }
+    public function updateCategoryAction()
+    {
+        $id=$this->params()->fromRoute("id",null);
+        $this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+ 
+        $category=new Category($this->dbAdapter);         
+        $categoria=$category->getCategoriaPorId($id);
+ 
+        $form=new CategoryForm("form");
+        $form->setData($categoria);
+         
+        $vista=array("form"=>$form);
+        if($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+            if($form->isValid()){
+                //Recogemos los datos del formulario
+                $category_name=$this->request->getPost("category_name");
+                $description=$this->request->getPost("description");
+                 
+                //Insertamos en la bd
+                $update=$category->updateCategory($id, $category_name, $description);
+                 return $this->redirect()->toUrl(
+              $this->getRequest()->getBaseUrl().'/products'
+         );
+
+            }else{
+                $vista=array("form"=>$form,'url'=>$this->getRequest()->getBaseUrl(),"error"=>$err);
+            }
+        }
+         return new ViewModel($vista); 
+    }
+
+    public function deleteCategoryAction()
+    {
+         $this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
+        $u=new Category($this->dbAdapter);
+        $form = new CategoryForm("form");
+        $id = (int) $this->params()->fromRoute('id',null);
+        $titulo=array(
+            "titulo"    =>"Datos de la categoria eliminado",
+            "datos"     => $u->deleteCategory($id)
+
+        );
+        return $this->redirect()->toUrl(
+              $this->getRequest()->getBaseUrl().'/products'
+         );
     }
 }

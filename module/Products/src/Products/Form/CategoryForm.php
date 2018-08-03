@@ -16,14 +16,14 @@ use Zend\Form\Factory;
 
  		/*Caja de texto del ID de la categoria*/
  		$this->add(array(
- 			'name' =>'idcateg',
+ 			'name' =>'category_id',
  			'options' => array(
  				'label' =>'ID de la categoria: ',
  			),
  			'attributes'=> array(
  				'type' => 'text',
  				'class' => 'input',
- 				'id' 	=> 'idcateg',
+ 				'id' 	=> 'category_id',
  				'required' => true
  			),
  		));
@@ -31,7 +31,7 @@ use Zend\Form\Factory;
 
  		/*Caja de texto del nombre de la categoria*/
  		$this->add(array(
- 			'name' =>'categnom',
+ 			'name' =>'category_name',
  			'options' => array(
  				'label' =>'Nombre de la categoria: ',
  			),
@@ -46,7 +46,7 @@ use Zend\Form\Factory;
 
  		/*Área de texto de la descripción de la categoria*/
  		$this->add(array(
- 			'name' =>'desc',
+ 			'name' =>'description',
  			'options' => array(
  				'label' =>'Descripción:',
  			),
@@ -54,7 +54,7 @@ use Zend\Form\Factory;
  				'type' => 'textarea',
  				'class' => 'input',
  				'required' =>true,
- 				'id' 	=> 'desc'
+ 				'id' 	=> 'description'
  			),
  		));	
 

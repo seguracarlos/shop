@@ -5,7 +5,7 @@ $form->prepare();
 
 //Manda los atributos por el metodo POST
 $form->setAttributes(array(
-	'action' =>$this->url.'/products/category/CategRecord',
+	'action' =>$this->url.'/products/add-Category',
 	'method' => 'post'
 ));
 
@@ -16,11 +16,12 @@ echo $this->form()->openTag($form);
 ?>
 
 
-<a href="<?php echo $this->basePath() ?>/products/category">Volver Atrás</a>
+<a href="<?php echo $this->basePath() ?>/products">Volver Atrás</a>
 
 <div class="form_element">
 <?php
-	$name = $form->get('categnom');
+//Caja de texto para el nombre de la categoria 
+	$name = $form->get('category_name');
 	echo $formLabel->openTag() . $name->getOption('label'). " ";
 	echo $this->formInput($name);;
 	echo $formLabel->closeTag();
@@ -30,7 +31,8 @@ echo $this->form()->openTag($form);
 <div class="form_element">
 
 <?php
-	$desc = $form->get('desc');
+//Campo de texto para la descripcion de la categoria
+	$desc = $form->get('description');
 	echo $formLabel->openTag() . $desc->getOption('label'). " ";
 	echo $this->formInput($desc);
 	echo $formLabel->closeTag();

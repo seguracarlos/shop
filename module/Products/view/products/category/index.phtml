@@ -2,7 +2,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <h1><?php echo $this->titulo ?></h1>
-<a class="btn btn-success" href="<?php echo $this->basePath() ?>/products/category/CategRecord/">Nuevo</a>
+<a class="btn btn-success" href="<?php echo $this->basePath() ?>/products/add-Category ">Nuevo</a>
 <table style="width:400px, text-aling:lefth">
     <tr>
         <th>ID</th>
@@ -19,19 +19,19 @@
 
             </td>
             <td>
-                <a class="btn btn-info" href="<?php echo $this->basePath() ?>/application/formulario/ver/ <?php echo $dato["id"] ?>">Info</a>
+                <a class="btn btn-info" href="<?php echo $this->basePath() ?>/products/view/ <?php echo $dato["category_id"] ?>">Info</a>
             </td>
             <td>
                 
             </td>
             <td>
-                <a class="btn btn-primary" href="<?php echo $this->basePath() ?>/application/formulario/modificar/ <?php echo $dato["id"] ?>">Modificar</a>
+                <a class="btn btn-primary" href="<?php echo $this->basePath() ?>/products/updateCategory/ <?php echo $dato["category_id"] ?>">Modificar</a>
             </td>
             <td>
                 
             </td>
             <td>
-                <a class="btn btn-danger" href="<?php echo $this->basePath() ?>/application/formulario/eliminar/ <?php echo $dato["id"] ?>" onClick="swal('¡Haz eliminado al usuario', 'El usuario fue eliminado correctamente', 'success');" >Eliminar</a>
+                <a class="btn btn-danger" href="<?php echo $this->basePath() ?>/products/delete-Category/ <?php echo $dato["category_id"] ?>" onClick="swal('¡Haz eliminado la categoria <?php echo $dato["category_name"] ?>', 'Esta acción no puede ser deshecha', 'success');" >Eliminar</a>
             </td>
         </tr>
     <?php } ?>

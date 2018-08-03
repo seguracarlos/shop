@@ -61,20 +61,20 @@ class Category extends Tablegateway
 	}
 
 	/*Metodo para actualizar los datos de una categoria*/
-	public function updateUsuario($category_id, $category_name, $description)
+	public function updateCategory($category_id, $category_name, $description)
 	{
 	$update=$this->update(array(
                                 "category_name"    => $category_name,
-                                "email"   => $description,
+                                "description"   => $description,
                                 ),
                                 array("category_id"=>$category_id));
          return $update;
 	}
 
 	/*Metodo para eliminar una categoria de la tabla*/
-	public function deleteUsuario($id)
+	public function deleteCategory($id)
 	{
-		$this->delete(array("category_id"=>$category_id));
+		$this->delete(array("category_id"=>$id));
 	}
 	
 }
