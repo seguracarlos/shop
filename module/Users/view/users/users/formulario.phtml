@@ -1,0 +1,113 @@
+<h1><?php  echo $this->titulo?></h1>
+<?php
+$form = $this->form;
+$form->prepare();
+$form->setAttributes(array(
+   'action'=> $this->url.'/users/users/recibe',
+   'method'=> 'post'
+));
+$formLabel=$this->plugin('formLabel');
+echo $this->form()->openTag($form);
+?>
+
+<div class="form-element">
+    <?php  $fileElement = $form->get('image-file'); ?>
+    <?php  echo $this->formLabel($fileElement); ?>
+    <?php  echo $this->formFile($fileElement); ?>
+    <?php  echo $this->formElementErrors($fileElement); ?>
+</div>
+
+<div class="form_element">
+
+<?php
+$rol_name= $form->get('rol_name');
+echo $formLabel->openTag().$rol_name->getLabel();            
+echo $formLabel->closeTag();
+echo $this->formSelect($rol_name);
+echo $this->formElementErrors($rol_name);
+?></div>
+
+<div class="form_element">
+
+<?php
+$description= $form->get('description');
+echo $formLabel->openTag().$description->getOption('label')." ";
+echo $this->formElementErrors($description);
+echo $formLabel->closeTag();
+echo $this->formInput($description);
+?></div>
+
+<div class="form_element">
+
+<?php
+$email= $form->get('email');
+echo $formLabel->openTag().$email->getOption('label')." ";
+echo $this->formElementErrors($email);
+echo $formLabel->closeTag();
+echo $this->formInput($email);
+?></div>
+
+<div class="form_element">
+
+<?php
+$password= $form->get('password');
+echo $formLabel->openTag().$password->getOption('label')." ";
+echo $this->formElementErrors($password);
+echo $formLabel->closeTag();
+echo $this->formInput($password);
+?></div>
+
+<div class="form_element">
+
+<?php
+$user_name= $form->get('user_name');
+echo $formLabel->openTag().$user_name->getOption('label')." ";
+echo $this->formElementErrors($user_name);
+echo $formLabel->closeTag();
+echo $this->formInput($user_name);
+?></div>
+
+<div class="form_element">
+
+<?php
+$first_name= $form->get('first_name');
+echo $formLabel->openTag().$first_name->getOption('label')." ";
+echo $this->formElementErrors($first_name);
+echo $formLabel->closeTag();
+echo $this->formInput($first_name);
+?></div>
+
+<div class="form_element">
+
+<?php
+$last_name= $form->get('last_name');
+echo $formLabel->openTag().$lst_name->getOption('label')." ";
+echo $this->formElementErrors($last_name);
+echo $formLabel->closeTag();
+echo $this->formInput($last_name);
+?></div>
+
+<div class="form_element">
+
+<?php
+$address= $form->get('address');
+echo $formLabel->openTag().$address->getOption('label')." ";
+echo $this->formElementErrors($address);
+echo $formLabel->closeTag();
+echo $this->formInput($address);
+?></div>
+
+
+<div class="form_element">
+
+<?php
+$telephone=$form->get('telephone');
+echo $formLabel->openTag().$telephone->getOption('label')." ";
+echo $this->formElementErrors($telephone);
+echo $formLabel->closeTag();
+echo $this->formInput($telephone);
+?></div>
+
+<?php echo $this->formHidden($form->get('oculto'))?>
+<?php echo $this->formElement($form->get('zend'))?>
+<?php echo $this->form()->closeTag()?>

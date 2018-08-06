@@ -11,8 +11,10 @@
 
  use Zend\Mvc\Controller\AbstractActionController;
  use Zend\View\Model\ViewModel;
+ use Zend\Db\Adapter\Adapter;
  use Zend\Form\RolesForm;
  use Zend\Model\Roles;
+ use Zend\Model\ProcessRoles;
 
  
 
@@ -31,7 +33,7 @@
     $id=(int) $this->params()->fromRoute('id',0);
     $valores=array(
         "titulo"=>"Detalles de un rol ",
-        "datos" =>$u->getURolPorId($id)
+        "datos" =>$u->getRolPorId($id)
     );
         return new ViewModel($valores);
     }
@@ -42,7 +44,7 @@
         $u=new Roles($this->dbAdapter);
 		$data=$this->request->getPost();
 		$u->addRoles($data);
-	return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/usuraios/roles/add/1');
+	return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/users/users/registroRoles/1');
 		}else{
 		$form=new RolesForm("form");
 		$id=(int)$this->params()->fromRoute('id',0);
@@ -68,12 +70,12 @@
             $form->setData($this->getRequest()->getPost());
             if($form->isValid()){
                 $id=$this->request->getPost("id");
-                $nombre=$this->request->getPost("rol_name");
-                $correo=$this->request->getPost("description");
+                $rol_name=$this->request->getPost("rol_name");
+                $description=$this->request->getPost("description");
                 $update=$u->updateRoles($id, $rol_name,$description);
                 if($update==true){
                     $this->flashMessenger()->setNamespace("add_correcto")->addMessage("Rol modificado correctamente");
-                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/usuarios/index/index');
+                    return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/users/index/index');
                 }else{
                     $this->flashMessenger()->setNamespace("duplicado")->addMessage("El usuario se ha modificado");
                     return $this->redirect()->refresh();
@@ -97,12 +99,12 @@
                }else{
             $this->flashMessenger()->setNamespace("eliminado")->addMessage("El usuario no a podido ser eliminado");
                }   
-       return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/usuarios/');
+       return $this->redirect()->toUrl($this->getRequest()->getBaseUrl().'/users/');
     }
     public function recibeAction(){
         $data=$this->request->getPost();
-        $procesa=new Procesa($data);
-        $datos=$procesa->getData();
+        $processRoles=new ProcessRoles($data);
+        $datos=$processRoles->getData();
         return new ViewModel(array('datos'=>$datos));
         }
     	

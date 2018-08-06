@@ -1,27 +1,19 @@
-<?php
- // module/Album/view/album/album/edit.phtml:
+<h1>Modificar Rol</h1>
 
- $title='Edit rol';
- $this->headTitle($title);
- ?>
- <h1><?php echo $this->escapeHtml($title); ?></h1>
 
- <?php
- $form = $this->form;
- $form->prepare();
- $form->setAttribute('action', $this->url(
-     'roles',
-     array(
-         'action' => 'edit',
-         'id'     => $this->id,
-     )
- ));
-// $form->prepare();
+ <?php   
 
- echo $this->form()->openTag($form);
- echo $this->formHidden($form->get('id'));
- echo $this->formRow($form->get('rol_name'));
- echo $this->formRow($form->get('description'));
- echo $this->formSubmit($form->get('submit'));
- echo $this->form()->closeTag();
- ?>
+$form = $this->form;
+$form->prepare();
+$form->setAttributes(array(
+    'action' => $this->url.'',
+    'method' => 'post'
+));
+
+echo $this->form()->openTag($form);
+echo $this->formCollection($form);
+echo $this->form()->closeTag();
+?>
+
+
+

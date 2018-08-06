@@ -14,9 +14,16 @@
      private $rol_id;
      private $email;
      private $password;
-    
+     private $user_name;
+     private $first_name;
+     private $last_name;
+     private $address;
+     private $telephone;
+  
 
-    public function __construct(Adapter $adapter = null, $databaseSchema=null,ResultSet $selectResultPrototype =null){
+    public function __construct(Adapter $adapter = null, $databaseSchema = null,
+      ResultSet $selectResultPrototype = null)
+    {
         return parent::__construct('users',$adapter, $databaseSchema,$selectResultPrototype);   
     }
 
@@ -25,6 +32,11 @@
          $this->rol_id=$datos["rol_id"];
          $this->email=$datos["email"];
          $this->password=$datos["password"];
+         $this->user_name=$datos["user_name"];
+         $this->first_name=$datos["first_name"];
+         $this->last_name=$datos["last_name"];
+         $this->address=$datos["address"];
+         $this->telephone=$datos["telephone"];
     }
 
     public function  getUser(){
@@ -48,15 +60,25 @@
             "rol_id"=>$this->rol_id,
             "email"=>$this->email,
             "password"=>$this->password,
+            "user_name"=>$this->user_name,
+            "first_name"=>$this->first_name,
+            "last_name"=>$this->last_name,
+            "address"=>$this->address,
+            "telephone"=>$this->telephone,
         );
         $this->insert($array);
     }
 
-    public function updateUser($id,$rol_id,$email,$password){
+    public function updateUser($id,$rol_id,$email,$password,$user_name,$first_name,$last_name,$address,$telphone){
         $update=$this->update(array(
             "rol_id"=>$rol_id,
             "email"=>$email,
             "password"=>$password,
+            "user_name"=>$user_name,
+            "first_name"=>$first_name,
+            "last_name"=>$last_name,
+            "address"=>$address,
+            "telephone"=>$telephone,
         ),
         array("id"=>$id));
         return $update;

@@ -6,7 +6,7 @@
  <h1><?php echo $this->escapeHtml($title); ?></h1>
  <p>
 <a class="btn btn-success" name="button2" type="button" 
-    value="ALERTA" href="<?php  echo $this->basePath() ?>/usuario/roles/add">Create </a>			
+    value="ALERTA" href="<?php  echo $this->basePath() ?>/users/users/registroRol">Create </a>			
 </p>
  
 <table style="width:400px; text-align:left">
@@ -23,10 +23,10 @@
 		 <td><?php echo $dato["description"] ?></td>
     
          <td><a class="btn btn-primary"  name="button2" type="button" 
-                             value="ALERTA" href="<?php echo $this->basePath() ?>/usuario/roles/edit/<?php echo $dato["id"]?>">Edit</a></td>
+                             value="ALERTA" href="<?php echo $this->basePath() ?>/users/roles/edit/<?php echo $dato["id"]?>">Edit</a></td>
                              
          <td><a class="btn btn-danger" id="1" name="button2" type="button" 
-                            value="ALERTA" href="<?php echo $this->basePath() ?>/usuario/roles/delete/<?php echo $dato["id"]?>">Deleite</a></td>
+                            value="ALERTA" href="<?php echo $this->basePath() ?>/users/roles/delete/<?php echo $dato["id"]?>">Deleite</a></td>
 							
 	           
 		  </tr>

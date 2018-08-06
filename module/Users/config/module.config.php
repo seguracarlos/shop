@@ -13,7 +13,7 @@ return array(
  'controllers' => array(
         'invokables' => array(
             'Users\Controller\Users' =>'Users\Controller\UsersController',
-            'Users\Controller\Users' =>'Users\Controller\RolesController'
+            'Users\Controller\Users' =>'Users\Controller\RolesController',
         ),
     ),
         

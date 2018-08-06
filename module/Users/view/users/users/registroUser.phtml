@@ -1,0 +1,117 @@
+<h1>
+<?php print_r($this->titulo);?>
+</h1>
+
+
+<?php
+$form = $this->form;
+$form->prepare();
+
+?>
+
+
+<?php
+$form = $this->form;
+$form->prepare();
+
+
+$form->setAttributes(array(
+   'action'=> $this->url.'/users/users/registroUser',
+  'method'=> 'post'
+  ));
+$formLabel=$this->plugin('formLabel');
+ echo $this->form()->openTag($form);
+?>
+
+
+<?php
+if(!empty($this->id))
+{
+  ?>
+          <p  class="close" data-dismiss='alert("confirme para realizar la modificacion")'  value="ALERTA" style="color:cyan;"> El registro se ingreso</p>
+      
+        <p>
+           <td><a  class="btn btn-success"  name="button" type="button" onclick='confirm("antes de visualisar la lista de registros!!\n\Esta seguro que no decea realizar algun otro registro.")' 
+                       value="ALERTA"  href="<?php  echo $this->basePath() ?>/crud/index/index">ver</a></td>                             
+        </p>
+<?php
+}
+?>
+
+
+<div class="form_element">
+
+<?php
+$email= $form->get('email');
+echo $formLabel->openTag().$email->getOption('label')." ";
+echo $this->formElementErrors($email);
+echo $formLabel->closeTag();
+echo $this->formInput($email);
+?></div>
+
+<div class="form_element">
+
+<?php
+$password= $form->get('password');
+echo $formLabel->openTag().$password->getOption('label')." ";
+echo $this->formElementErrors($password);
+echo $formLabel->closeTag();
+echo $this->formInput($password);
+?></div>
+
+<div class="form_element">
+
+<?php
+$user_name= $form->get('user_name');
+echo $formLabel->openTag().$user_name->getOption('label')." ";
+echo $this->formElementErrors($user_name);
+echo $formLabel->closeTag();
+echo $this->formInput($user_name);
+?></div>
+
+<div class="form_element">
+
+<?php
+$first_name= $form->get('first_name');
+echo $formLabel->openTag().$first_name->getOption('label')." ";
+echo $this->formElementErrors($first_name);
+echo $formLabel->closeTag();
+echo $this->formInput($first_name);
+?></div>
+
+<div class="form_element">
+
+<?php
+$last_name= $form->get('last_name');
+echo $formLabel->openTag().$lst_name->getOption('label')." ";
+echo $this->formElementErrors($last_name);
+echo $formLabel->closeTag();
+echo $this->formInput($last_name);
+?></div>
+
+<div class="form_element">
+
+<?php
+$address= $form->get('address');
+echo $formLabel->openTag().$address->getOption('label')." ";
+echo $this->formElementErrors($address);
+echo $formLabel->closeTag();
+echo $this->formInput($address);
+?></div>
+
+
+<div class="form_element">
+
+<?php
+$telephone=$form->get('telephone');
+echo $formLabel->openTag().$telephone->getOption('label')." ";
+echo $this->formElementErrors($telephone);
+echo $formLabel->closeTag();
+echo $this->formInput($telephone);
+?></div>
+
+
+<?php echo  $this->formElement($form->get('zend')); ?>
+
+<?php echo $this->form()->closeTag()?>
+  

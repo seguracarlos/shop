@@ -1,0 +1,47 @@
+<h1>
+	<?php print_r($this->titulo);?>
+</h1>
+
+<?php
+$form = $this->form;
+$form->prepare();
+?>
+
+<?php
+$form = $this->form;
+$form->prepare();
+
+$form->setAttributes(array(
+   'action'=> $this->url.'/users/users/registroRol',
+	'method'=> 'post'
+	));
+$formLabel=$this->plugin('formLabel');
+ echo $this->form()->openTag($form);
+?>
+
+
+<div class="form_element">
+
+<?php
+$rol_name= $form->get('rol_name');
+echo $formLabel->openTag().$rol_name->getLabel();            
+echo $formLabel->closeTag();
+echo $this->formSelect($rol_name);
+echo $this->formElementErrors($rol_name);
+?></div>
+
+<div class="form_element">
+
+<?php
+$description= $form->get('description');
+echo $formLabel->openTag().$description->getOption('label')." ";
+echo $this->formElementErrors($description);
+echo $formLabel->closeTag();
+echo $this->formInput($description);
+?></div>
+
+
+<?php echo  $this->formElement($form->get('zend')); ?>
+
+<?php echo $this->form()->closeTag()?>
+  
