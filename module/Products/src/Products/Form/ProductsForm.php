@@ -16,35 +16,35 @@ use Zend\Form\Factory;
 
  		/*Caja de texto del ID del producto*/
  		$this->add(array(
- 			'name' =>'idprod',
+ 			'name' =>'product_id',
  			'options' => array(
  				'label' =>'ID del producto: ',
  			),
  			'attributes'=> array(
  				'type' => 'text',
  				'class' => 'input',
- 				'id' 	=> 'idprod',
+ 				'id' 	=> 'product_id',
  				'required' => true
  			),
  		));
 
  		/*Caja de texto del ID de la categoria*/
  		$this->add(array(
- 			'name' =>'idcateg',
+ 			'name' =>'category_id',
  			'options' => array(
  				'label' =>'ID de la categoria: ',
  			),
  			'attributes'=> array(
  				'type' => 'text',
  				'class' => 'input',
- 				'id' 	=> 'idcateg',
+ 				'id' 	=> 'category_id',
  				'required' => true
  			),
  		));
 
  		/*Área de texto de la descripción del producto*/
  		$this->add(array(
- 			'name' =>'desc',
+ 			'name' =>'description',
  			'options' => array(
  				'label' =>'Descripción:',
  			),
@@ -52,7 +52,7 @@ use Zend\Form\Factory;
  				'type' => 'textarea',
  				'class' => 'input',
  				'required' =>true,
- 				'id' 	=> 'desc'
+ 				'id' 	=> 'description'
  			),
  		));
 
@@ -75,8 +75,8 @@ use Zend\Form\Factory;
 
  		// File Input
         $file = new Element\File('image-file');
-        $file->setLabel('Suba su foto')
-             ->setAttribute('id', 'image-file');
+        $file->setLabel('Inserte imagen del producto')
+             ->setAttribute('id', 'image');
         $this->add($file);
 
         /*Botón de enviar*/

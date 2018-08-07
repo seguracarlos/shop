@@ -5,35 +5,38 @@ use Zend\Db\Adapter\Adapter;
 
 class Usuarios extends Tablegateway
 {
-	private $nombre;
-	private $email;
-	private $contrasena;
-
+	private $product_id;
+	private $category_id;
+	private $description;
+	private $barcode;
+	private $image;
 
 	public function __construct(Adapter $adapter = null, $database = null,
 		ResultSet $selectResultPrototype = null)
 	{
-		return parent::__construct('usuarios',$adapter,$database,
+		return parent::__construct('product',$adapter,$database,
 			$selectResultPrototype);
 	}
 
 
 	private function cargaAtributos($datos=array())
 	{
-		$this->nombre=$datos["nombre"];
-		$this->email=$datos["email"];
-		$this->contrasena=$datos["contrasena"];
+		$this->product_id=$datos["product_id"];
+		$this->category_id=$datos["category_id"];
+		$this->description=$datos["description"];
+		$this->barcode=$datos["barcode"];
+		$this->image=$datos["image"];
 	}
 
 
-	public function getUsuarios()
+	public function getProducts()
 	{
 		$resultSet = $this->select();
 		return $resultSet->toArray();
 	}
 
 
-	public function getUsuarioPorId($id)
+	public function getProductsPorId($id)
 	{
 		$id = (int) $id;
 		$rowset = $this->select(array('id' => $id));
@@ -47,31 +50,33 @@ class Usuarios extends Tablegateway
 	}
 
 
-	public function  addUsuario( $data=array())
+	public function  addProduct( $data=array())
 	{
 		self::cargaAtributos($data);
-		//echo $this->nombre;
 		$array=array
 		(
-			'nombre' => $this->nombre,
-			'email' => $this->email,
-			'contrasena' => $this->contrasena
+			'product_id' => $this->product_id,
+			'category_id' => $this->category_id,
+			'description' => $this->description,
+			'barcode' => $this->barcode,
+			'image' => $this->image
 		);
 		$this->insert($array);		
 	}
-	public function updateUsuario($id, $nombre, $email,$contrasena)
+	public function updateProduct($product_id, $category_id, $description,$barcode, $image)
 	{
 	$update=$this->update(array(
-                                "nombre"    => $nombre,
-                                "email"   => $email,
-                                "contrasena"    => $contrasena
+								"category_id"	=> $category_id
+                                "description"   => $description,
+                                "barcode"   	=> $barcode,
+                                "image"    		=> $image
                                 ),
-                                array("id"=>$id));
+                                array("product_id"=>$product_id));
          return $update;
 	}
-	public function deleteUsuario($id)
+	public function deleteProduct($product_id)
 	{
-		$this->delete(array("id"=>$id));
+		$this->delete(array("product_id"=>$product_id));
 	}
 	
 }
