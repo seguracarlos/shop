@@ -1,35 +1,75 @@
 <?php
+/**
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ */
 
 return array(
-        'controllers' => array(
-            'invokables' => array(
-                'Products\Controller\Products' => 'Products\Controller\ProductsController',
-                'Products\Controller\Products' => 'Products\Controller\CategoryController',
-            ),
-        ),
-
-        'router'=>array(
-            'routes'=>array(
-                'products'=>array(
-                    'type'=>'Segment',
-                        'options'=>array(
-
-                            'route' => '/products[/[:action[/:id]]]',
+    'router' => array(
+        'routes' => array(
+            'products' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/products',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Products\Controller',
+                        'controller'    => 'Products',
+                        'action'        => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'shop' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:controller[/:action][/:id]]',
                             'constraints' => array(
-                                    'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'     => '[0-9]+',
                             ),
-
                             'defaults' => array(
-                                'controller' =>'Products\Controller\Products',
-                                'action' => 'index'
+                                'defaults' => array(
+                                    'controller' => 'Products\Controller\Products',
+                                    'action'     => 'index',
+                                ),
                             ),
                         ),
+                    ),
                 ),
             ),
         ),
+    ),
+    
+    'view_helper_config' => array(
+        'flashmessenger' => array(
+            'message_open_format'      => '<div%s><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><ul><li>',
+            'message_close_string'     => '</li></ul></div>',
+            'message_separator_string' => '</li><li>'
+        )
+    ),
 
-        //Cargamos el view manager
-        'view_manager' => array(
+    
+    'translator' => array(
+        'locale' => 'es_ES',
+        'translation_file_patterns' => array(
+            array(
+                'type'     => 'gettext',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern'  => '%s.mo',
+            ),
+        ),
+    ),
+    'controllers' => array(
+        'invokables' => array(
+            'Products\Controller\Products' => 'Products\Controller\ProductsController',
+            'Products\Controller\Category' => 'Products\Controller\CategoryController',
+        ),
+    ),
+    'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
         'doctype'                  => 'HTML5',
@@ -42,7 +82,15 @@ return array(
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
         'template_path_stack' => array(
-           'products' => __DIR__ . '/../view',
+            'smartphone' => __DIR__ . '/../view',
+        ),
+    ),
+
+    // Placeholder for console routes
+    'console' => array(
+        'router' => array(
+            'routes' => array(
+            ),
         ),
     ),
 );

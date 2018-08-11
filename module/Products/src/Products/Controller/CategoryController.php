@@ -12,119 +12,96 @@ namespace Products\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Products\Form\CategoryForm;
-use Zend\Db\Adapter\Adapter;
 use Products\Model\Entity\Category;
 
 class CategoryController extends AbstractActionController
 {
-    public $dbAdapter;
-    public function indexAction()
-    {
-        $this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-    	$u=new Category($this->dbAdapter);
-    	$titulo=array(
-    		"titulo"	=>"Categorias",
-    		"datos"		=> $u->getCategorias()
+    protected $categoryTable;
 
-    	);
-        return new ViewModel($titulo);
+    public function getCategoryTable(){
+        if(!$this->categoryTable){
+            $sm = $this->getServiceLocator();
+            $this->categoryTable = $sm->get('Products\Model\Entity\CategoryTable');
+        }
+        return $this->categoryTable;        
     }
-    public function addCategoryAction()
-    {
+
+    public function indexAction(){
+        $categorys = $this->getCategoryTable()->fetchAll();
+        return new ViewModel(array('categorys' => $categorys));
+    }
+
+    public function addCategoryAction(){
+        $form = new CategoryForm();
         
-        if ($this->getRequest()->isPost()) 
-        {
-            $this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-            $u=new Category($this->dbAdapter);
-            $data=$this->request->getPost();
-            $u->addCategory($data);
-            $form = new CategoryForm("form");
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $category = new Category();
+            $form->setInputFilter($category->getInputFilter());
+            $form->setData($request->getPost());
 
-            $valores=array
-            (
-                'titulo'=>"Registro de Categoria Exitoso",
-                "form"=>$form,
-                'url'=>$this->getRequest()->getBaseUrl(),
+            if ($form->isValid()) {
                 
-            );
-            return $this->redirect()->toUrl(
-              $this->getRequest()->getBaseUrl().'/products'
-         );
-            
-        }else
-        {
-
-            //Zona del formulario
-            $form = new CategoryForm("form");
-            $valores=array
-            (
-                'titulo'=>"Registro de categoria",
-                "form"=>$form,
-                'url'=>$this->getRequest()->getBaseUrl(),
                 
-            );
-            return new ViewModel($valores);
-            }
-    }
-    public function viewAction()
-    {
-        $this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-        $u=new Category($this->dbAdapter);
-        $form = new CategoryForm("form");
-        $id = (int) $this->params()->fromRoute('id',0);
-        $titulo=array(
-            "titulo"    =>"Mostrando detalle de la categoria",
-            "form"      =>$form,
-            "datos"     => $u->getCategoriaPorId($id)
-
-        );
-        return new ViewModel($titulo);
-    }
-    public function updateCategoryAction()
-    {
-        $id=$this->params()->fromRoute("id",null);
-        $this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
- 
-        $category=new Category($this->dbAdapter);         
-        $categoria=$category->getCategoriaPorId($id);
- 
-        $form=new CategoryForm("form");
-        $form->setData($categoria);
-         
-        $vista=array("form"=>$form);
-        if($this->getRequest()->isPost()) {
-            $form->setData($this->getRequest()->getPost());
-            if($form->isValid()){
-                //Recogemos los datos del formulario
-                $category_name=$this->request->getPost("category_name");
-                $description=$this->request->getPost("description");
-                 
-                //Insertamos en la bd
-                $update=$category->updateCategory($id, $category_name, $description);
-                 return $this->redirect()->toUrl(
-              $this->getRequest()->getBaseUrl().'/products'
-         );
-
-            }else{
-                $vista=array("form"=>$form,'url'=>$this->getRequest()->getBaseUrl(),"error"=>$err);
+                $category->exchangeArray($form->getData());
+                $this->getCategoryTable()->addCategory($category);
+                //$this->flashMessenger()->addSuccessMessage("Se guardó correctamente la serie ". $serie->model.".");
+                return $this->redirect()->toRoute('products/shop', array('controller'=>'category', 'action' => 'index'));
+                
             }
         }
-         return new ViewModel($vista); 
+        return array('form' => $form);   
     }
 
-    public function deleteCategoryAction()
-    {
-         $this->dbAdapter=$this->getServiceLocator()->get('Zend\Db\Adapter');
-        $u=new Category($this->dbAdapter);
-        $form = new CategoryForm("form");
-        $id = (int) $this->params()->fromRoute('id',null);
-        $titulo=array(
-            "titulo"    =>"Datos de la categoria eliminado",
-            "datos"     => $u->deleteCategory($id)
+    public function updateCategoryAction(){
+        
+        $categoryId = (int) $this->params()->fromRoute('id', 0);
+        $category = null;
+        if (!$categoryId) {
+            return $this->redirect()->toRoute('products/shop', array('controller'=>'category', 'action' => 'addCategory'));
+        }
+        try {
+            $category = $this->getCategoryTable()->getCategoryById($categoryId);
+             
+        }
+        catch (\Exception $ex) {
+            //$this->flashMessenger()->addErrorMessage("No se encontró una serie con el id: ". $id.".");
+            return $this->redirect()->toRoute('products/shop', array('controller'=>'category', 'action' => 'index'));
+            
+        }
+         
+        $form  = new CategoryForm();
+        $form->bind($category);
+         
+        $form->get('submit')->setAttribute('value', 'Editar');
 
+        $request = $this->getRequest();
+
+        if ($request->isPost()) {
+            $form->setInputFilter($category->getInputFilter());
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+                $this->getCategoryTable()->addCategory($category);
+                return $this->redirect()->toRoute('products/shop', array('controller'=>'category', 'action' => 'index'));
+            }
+        }
+        return array(
+            'id' => $categoryId,
+            'form' => $form,
         );
-        return $this->redirect()->toUrl(
-              $this->getRequest()->getBaseUrl().'/products'
-         );
     }
+
+    public function deleteCategoryAction(){
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $categoryId = (int) $request->getPost('category_id');
+            $this->getCategoryTable()->deleteCategory($categoryId);
+            return $this->redirect()->toRoute('products/shop', array('controller'=>'category', 'action' => 'index'));
+        }
+    }
+
+        
+
 }

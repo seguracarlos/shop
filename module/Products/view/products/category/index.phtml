@@ -1,45 +1,43 @@
-<head>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-</head>
-<h1><?php echo $this->titulo ?></h1>
-<a class="btn btn-success" href="<?php echo $this->basePath() ?>/products/add-Category ">Nuevo</a>
-<table style="width:400px, text-aling:lefth">
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Description</th>
-    </tr>
-    <?php foreach ($this->datos as $dato ) { ?>
-        <tr style="background-color:<?php echo $this->cycle(array("#FOFOFO","#FFFFFF"))->next() ?>">
+<?php
+
+ $title = 'Categorias';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <br/>
+ <br/>
+ <p>
+     <a class="btn btn-info" href="<?php echo $this->url('products/shop', array('controller' => 'category', 'action'=>'addCategory'));?>">Nuevo</a>
+     
+ </p>
+
+ <table class="table">
+ <tr>
+     <th>ID</th>
+     <th>Nombre</th>
+     <th>Descripción</th>
+ </tr>
+ <?php foreach ($categorys as $category) : ?>
+ <tr>
+     <td> <?php echo $this->escapeHtml($category->categoryId);?></td>
+     <td><?php echo $this->escapeHtml($category->categoryName);?></td>
+     <td><?php echo $this->escapeHtml($category->description);?></td>
+     <td>
+             <?php $url = $this->url('products/shop', array(
+                'controller' => 'category',
+                'action' => 'deleteCategory',
+                'categoryId'     => $category->categoryId,
+            ));
+            ?>
+            <form action="<?php echo $url; ?>" method="post">
+                <a class="btn btn-success" href="<?php echo $this->url('products/shop',
+             array('controller' => 'category', 'action'=>'updateCategory', 'id' => $category->categoryId));?>">Modificar</a>
+                 <input type="hidden" name="category_id" value="<?php echo (int) $category->categoryId; ?>" />
+                 <input class="btn btn-danger" type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro que lo deseas eliminar?')" />
+             </form>
+             
         
-            <td><?php echo $dato["category_id"] ?></td>
-            <td><?php echo $dato["category_name" ] ?></td>
-            <td><?php echo $dato["description"] ?></td>
-            <td>
-
-            </td>
-            <td>
-                <a class="btn btn-info" href="<?php echo $this->basePath() ?>/products/view/ <?php echo $dato["category_id"] ?>">Info</a>
-            </td>
-            <td>
-                
-            </td>
-            <td>
-                <a class="btn btn-primary" href="<?php echo $this->basePath() ?>/products/updateCategory/ <?php echo $dato["category_id"] ?>">Modificar</a>
-            </td>
-            <td>
-                
-            </td>
-            <td>
-                <a class="btn btn-danger" href="<?php echo $this->basePath() ?>/products/delete-Category/ <?php echo $dato["category_id"] ?>" onClick="swal('¡Haz eliminado la categoria <?php echo $dato["category_name"] ?>', 'Esta acción no puede ser deshecha', 'success');" >Eliminar</a>
-            </td>
-        </tr>
-    <?php } ?>
-
-    <?php 
-    $this->cycle()->assign(array("#FOFOFO", "#FFFFFF"));
-    $this->cycle()->prev();
-    ?>
-</table>
-
-
+     </td>
+ </tr>
+ <?php endforeach; ?>
+ </table>

@@ -1,0 +1,62 @@
+<h1><?php print_r($this->titulo)?> </h1>
+<?php
+$form= $this->form;
+$form->prepare();
+
+//Manda los atributos por el metodo POST
+$form->setAttributes(array(
+	'action' =>$this->url.'prueba',
+	'method' => 'post'
+));
+
+$formLabel = $this->plugin('formLabel');
+
+echo $this->form()->openTag($form);
+
+?>
+
+
+<a href="<?php echo $this->basePath() ?>/products">Volver Atrás</a>
+
+<div class="form_element">
+<?php
+//Caja de texto para el ID de la categoria 
+	$name = $form->get('category_id');
+	echo $formLabel->openTag() . $name->getOption('label'). " ";
+	echo $this->formInput($name);;
+	echo $formLabel->closeTag();
+?>
+</div>
+<hr />
+<div class="form_element">
+
+<?php
+//Campo de texto para la descripcion de la categoria
+	$desc = $form->get('description');
+	echo $formLabel->openTag() . $desc->getOption('label'). " ";
+	echo $this->formInput($desc);
+	echo $formLabel->closeTag();
+?>
+</div>
+<hr />
+
+<div class="form_element">
+
+<?php
+//Campo de texto para la descripcion de la categoria
+	$barcode = $form->get('barcode');
+	echo $formLabel->openTag() . $barcode->getOption('label'). " ";
+	echo $this->formInput($barcode);
+	echo $formLabel->closeTag();
+?>
+</div>
+<hr />
+<div class="form-element">
+        <?php $fileElement = $form->get('image-file'); ?>
+        <?php echo $this->formLabel($fileElement); ?>
+        <?php echo $this->formFile($fileElement); ?>
+        <?php echo $this->formElementErrors($fileElement); ?>
+</div>
+<hr />
+<?php echo $this->formElement($form->get('send')) ?>
+<?php echo $this->form()->closeTag() ?>

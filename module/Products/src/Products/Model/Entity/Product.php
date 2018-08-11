@@ -1,82 +1,107 @@
 <?php
 namespace Products\Model\Entity;
-use Zend\Db\Tablegateway\Tablegateway;
-use Zend\Db\Adapter\Adapter;
+ use Zend\InputFilter\InputFilter;
+ use Zend\InputFilter\InputFilterAwareInterface;
+ use Zend\InputFilter\InputFilterInterface;
 
 class Usuarios extends Tablegateway
 {
-	private $product_id;
-	private $category_id;
-	private $description;
-	private $barcode;
-	private $image;
+	 public $productId;
+     public $categoryId;
+     public $description;
+     public $barcode;
+     public $image;
+     protected $inputFilter;
 
-	public function __construct(Adapter $adapter = null, $database = null,
-		ResultSet $selectResultPrototype = null)
-	{
-		return parent::__construct('product',$adapter,$database,
-			$selectResultPrototype);
-	}
+     public function exchangeArray($data)
+     {
+         $this->productId     = (!empty($data['product_id'])) ? $data['product_id'] : null;
+         $this->categoryId = (!empty($data['category_id'])) ? $data['category_id'] : null;
+         $this->description = (!empty($data['description'])) ? $data['description'] : null;
+         $this->barcode = (!empty($data['barcode'])) ? $data['barcode'] : null;
+         $this->image = (!empty($data['image'])) ? $data['image'] : null;
+     }
 
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
 
-	private function cargaAtributos($datos=array())
-	{
-		$this->product_id=$datos["product_id"];
-		$this->category_id=$datos["category_id"];
-		$this->description=$datos["description"];
-		$this->barcode=$datos["barcode"];
-		$this->image=$datos["image"];
-	}
+     public function setInputFilter(InputFilterInterface $inputFilter)
+     {
+         throw new \Exception("Not used");
+     }
 
+     public function getInputFilter()
+     {
+         if (!$this->inputFilter) {
+             $inputFilter = new InputFilter();
 
-	public function getProducts()
-	{
-		$resultSet = $this->select();
-		return $resultSet->toArray();
-	}
+             $inputFilter->add(array(
+                 'name'     => 'product_id',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'Int'),
+                 ),
+             ));
 
+             $inputFilter->add(array(
+                 'name'     => 'category_id',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'Int'),
+                 ),
+             ));
 
-	public function getProductsPorId($id)
-	{
-		$id = (int) $id;
-		$rowset = $this->select(array('id' => $id));
-		$row = $rowset->current();
-		if(!$row)
-		{
-			throw new \Exception("No hay registros asociados al valor $id");
-			
-		}
-		return $row;
-	}
+             $inputFilter->add(array(
+                 'name'     => 'description',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 200,
+                         ),
+                     ),
+                 ),
+             ));
+             $inputFilter->add(array(
+                 'name'     => 'barcode',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'Int'),
+                 ),
+             ));
+             
+             $inputFilter->add(array(
+                 'name'     => 'image',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 45,
+                         ),
+                     ),
+                 ),
+             ));
 
+             $this->inputFilter = $inputFilter;
+         }
 
-	public function  addProduct( $data=array())
-	{
-		self::cargaAtributos($data);
-		$array=array
-		(
-			'product_id' => $this->product_id,
-			'category_id' => $this->category_id,
-			'description' => $this->description,
-			'barcode' => $this->barcode,
-			'image' => $this->image
-		);
-		$this->insert($array);		
-	}
-	public function updateProduct($product_id, $category_id, $description,$barcode, $image)
-	{
-	$update=$this->update(array(
-								"category_id"	=> $category_id
-                                "description"   => $description,
-                                "barcode"   	=> $barcode,
-                                "image"    		=> $image
-                                ),
-                                array("product_id"=>$product_id));
-         return $update;
-	}
-	public function deleteProduct($product_id)
-	{
-		$this->delete(array("product_id"=>$product_id));
-	}
+         return $this->inputFilter;
+     }
 	
 }
+?>

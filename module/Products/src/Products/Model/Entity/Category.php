@@ -1,80 +1,89 @@
 <?php
 namespace Products\Model\Entity;
-use Zend\Db\Tablegateway\Tablegateway;
-use Zend\Db\Adapter\Adapter;
 
-class Category extends Tablegateway
+
+ use Zend\InputFilter\InputFilter;
+ use Zend\InputFilter\InputFilterAwareInterface;
+ use Zend\InputFilter\InputFilterInterface;
+
+class Category implements InputFilterAwareInterface
 {
-	private $category_id;
-	private $category_name;
-	private $description;
+	 public $categoryId;
+     public $categoryName;
+     public $description;
+     protected $inputFilter;
 
-	/*Se crea el construtor*/
-	public function __construct(Adapter $adapter = null, $database = null,
-		ResultSet $selectResultPrototype = null)
-	{
-		return parent::__construct('category',$adapter,$database,
-			$selectResultPrototype);
-	}
+     public function exchangeArray($data)
+     {
+         $this->categoryId     = (!empty($data['category_id'])) ? $data['category_id'] : null;
+         $this->categoryName = (!empty($data['category_name'])) ? $data['category_name'] : null;
+         $this->description = (!empty($data['description'])) ? $data['description'] : null;
+     }
 
-	/*Metodo para cargar los atributos de la tabla*/
-	private function cargaAtributos($datos=array())
-	{
-		$this->category_id=$datos["category_id"];
-		$this->category_name=$datos["category_name"];
-		$this->description=$datos["description"];
-	}
+     public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
 
-	/*Metodo para cargar todas las categorias de la tabla Category*/
-	public function getCategorias()
-	{
-		$resultSet = $this->select();
-		return $resultSet->toArray();
-	}
+     public function setInputFilter(InputFilterInterface $inputFilter)
+     {
+         throw new \Exception("Not used");
+     }
 
-	/*Metodo para hacer una busqueda de una categoria por ID*/
-	public function getCategoriaPorId($id)
-	{
-		$id = (int) $id;
-		$rowset = $this->select(array('category_id' => $id));
-		$row = $rowset->current();
-		if(!$row)
-		{
-			throw new \Exception("No hay registros asociados al valor $id");
-			
-		}
-		return $row;
-	}
+     public function getInputFilter()
+     {
+         if (!$this->inputFilter) {
+             $inputFilter = new InputFilter();
 
-	/*Metodo para hacer una inserción a la tabla Category*/
-	public function  addCategory( $data=array())
-	{
-		self::cargaAtributos($data);
-		$array=array
-		(
+             $inputFilter->add(array(
+                 'name'     => 'category_id',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'Int'),
+                 ),
+             ));
 
-			'category_id' => $this->category_id,
-			'category_name' => $this->category_name,
-			'description' => $this->description
-		);
-		$this->insert($array);		
-	}
+             $inputFilter->add(array(
+                 'name'     => 'category_name',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 50,
+                         ),
+                     ),
+                 ),
+             ));
 
-	/*Metodo para actualizar los datos de una categoria*/
-	public function updateCategory($category_id, $category_name, $description)
-	{
-	$update=$this->update(array(
-                                "category_name"    => $category_name,
-                                "description"   => $description,
-                                ),
-                                array("category_id"=>$category_id));
-         return $update;
-	}
+             $inputFilter->add(array(
+                 'name'     => 'description',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 200,
+                         ),
+                     ),
+                 ),
+             ));
 
-	/*Metodo para eliminar una categoria de la tabla*/
-	public function deleteCategory($id)
-	{
-		$this->delete(array("category_id"=>$id));
-	}
-	
+             $this->inputFilter = $inputFilter;
+         }
+
+         return $this->inputFilter;
+     }
 }
+?>

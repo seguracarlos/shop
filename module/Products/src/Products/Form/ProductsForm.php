@@ -2,91 +2,62 @@
 
 namespace Products\Form;
 
-use Zend\Captcha\AdapterInterface as CaptchaAdapter;
-use Zend\Form\Element;
 use Zend\Form\Form;
-use Zend\Captcha;
-use Zend\Form\Factory;
 
- class ProductosForm extends Form
+ class ProductsForm extends Form
  {
  	public function __construct($name = null)
  	{
- 		parent::__construct($name);
-
- 		/*Caja de texto del ID del producto*/
+ 		parent::__construct('product');
+ 		//ID del producto
  		$this->add(array(
- 			'name' =>'product_id',
- 			'options' => array(
- 				'label' =>'ID del producto: ',
- 			),
- 			'attributes'=> array(
- 				'type' => 'text',
- 				'class' => 'input',
- 				'id' 	=> 'product_id',
- 				'required' => true
- 			),
- 		));
-
- 		/*Caja de texto del ID de la categoria*/
+             'name' => 'productId',
+             'type' => 'Hidden',
+         ));
+ 		//Lista desplegables con las categorias (llena desde la base)
  		$this->add(array(
- 			'name' =>'category_id',
- 			'options' => array(
- 				'label' =>'ID de la categoria: ',
- 			),
- 			'attributes'=> array(
- 				'type' => 'text',
- 				'class' => 'input',
- 				'id' 	=> 'category_id',
- 				'required' => true
- 			),
- 		));
-
- 		/*Área de texto de la descripción del producto*/
- 		$this->add(array(
- 			'name' =>'description',
- 			'options' => array(
- 				'label' =>'Descripción:',
- 			),
- 			'attributes'=> array(
- 				'type' => 'textarea',
- 				'class' => 'input',
- 				'required' =>true,
- 				'id' 	=> 'description'
- 			),
- 		));
-
- 		/*Caja de texto del código de barras del producto*/
- 		$this->add(array(
- 			'name' =>'barcode',
- 			'options' => array(
- 				'label' =>'Código de barras: ',
- 			),
- 			'attributes'=> array(
- 				'type' => 'text',
- 				'class' => 'input',
- 				'id' 	=> 'barcode',
- 				'required' => true,
- 				'required pattern'=>'[0-9]+'
- 			),
- 		));
-
- 		$factory = new Factory();
-
- 		// File Input
-        $file = new Element\File('image-file');
-        $file->setLabel('Inserte imagen del producto')
-             ->setAttribute('id', 'image');
-        $this->add($file);
-
-        /*Botón de enviar*/
- 		$this->add(array(
- 			'name' => 'send',
- 			'attributes' => array(
- 				'type' => 'submit',
- 				'value' => 'Enviar',
- 			),
- 		));
+             'type' => 'Zend\Form\Element\Select',
+             'name' => 'category_id',
+             'options' => array(
+                     'label' => 'Selecciona una categoria',
+                     //'empty_option' => 'Selecciona...',
+                     'value_options' => array(
+                     ),
+             )
+     	));
+     	//Área de texto para la descripción del producto
+         $this->add(array(
+             'name' => 'description',
+             'type' => 'Textarea',
+             'options' => array(
+                 'label' => 'Descripción del producto: ',
+             ),
+         ));
+         //Caja de texto para el código de barra de la categoria 
+         $this->add(array(
+             'name' => 'barcode',
+             'type' => 'Text',
+             'options' => array(
+                 'label' => 'Código de barras: ',
+             ),
+         ));
+         //Caja para subir imagen a la base de texto.
+         $this->add(array(
+             'name' => 'image',
+             'type' => 'Zend\Form\Element\File',
+             'options' => array(
+                 'label' => 'Selecciona la imagen: ',
+             ),
+         ));
+         //Botón de enviar y/o guardar
+         $this->add(array(
+             'name' => 'submit',
+             'type' => 'Submit',
+             'attributes' => array(
+                 'value' => 'Guardar',
+                 'id' => 'submitsave',
+             ),
+         ));
 
 
  	}

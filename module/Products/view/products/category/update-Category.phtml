@@ -1,44 +1,30 @@
-<h1>Modificar datos de la categoria </h1>
 <?php
-$form= $this->form;
+
+ // module/Album/view/album/album/edit.phtml:
+
+ $title = 'Editar Categoria';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+ <?php
+ $form = $this->form;
+ $form->setAttribute('action', $this->url(
+     'products/shop',
+     array(
+     	'controller' => 'category',
+        'action' => 'updateCategory',
+        'id'     => $this->categoryId,
+     )
+ ));
 $form->prepare();
-
-//Manda los atributos por el metodo POST
-$form->setAttributes(array(
-	'action' =>$this->url.'',
-	'method' => 'post'
-));
-
-$formLabel = $this->plugin('formLabel');
-
-echo $this->form()->openTag($form);
-
-?>
-
-
-<a href="<?php echo $this->basePath() ?>/products">Volver Atrás</a>
-
-<div class="form_element">
-<?php
-//Caja de texto para el nombre de la categoria 
-	$name = $form->get('category_name');
-	echo $formLabel->openTag() . $name->getOption('label'). " ";
-	echo $this->formInput($name);;
-	echo $formLabel->closeTag();
-?>
-</div>
-<hr />
-<div class="form_element">
-
-<?php
-//Campo de texto para la descripcion de la categoria
-	$desc = $form->get('description');
-	echo $formLabel->openTag() . $desc->getOption('label'). " ";
-	echo $this->formInput($desc);
-	echo $formLabel->closeTag();
-?>
-</div>
-<hr />
-
-<?php echo $this->formElement($form->get('send')) ?>
-<?php echo $this->form()->closeTag() ?>
+ echo $this->form()->openTag($form);
+ echo $this->formHidden($form->get('category_id'));
+ echo "<br/>";
+ echo $this->formRow($form->get('category_name'));
+ echo "<br/>";
+ echo $this->formRow($form->get('description'));
+ echo "<br/>";
+ echo $this->formSubmit($form->get('submit'));
+ echo $this->form()->closeTag();
+ ?>
