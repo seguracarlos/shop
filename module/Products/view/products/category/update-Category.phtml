@@ -14,14 +14,16 @@
      array(
      	'controller' => 'category',
         'action' => 'updateCategory',
-        'id'     => $this->categoryId,
+        'id'     => $this->id,
      )
  ));
+// echo print_r($form->get('category_name'));
+ //exit;
 $form->prepare();
  echo $this->form()->openTag($form);
  echo $this->formHidden($form->get('category_id'));
  echo "<br/>";
- echo $this->formRow($form->get('category_name'));
+ echo $this->formRow($this->form->get('category_name'));
  echo "<br/>";
  echo $this->formRow($form->get('description'));
  echo "<br/>";

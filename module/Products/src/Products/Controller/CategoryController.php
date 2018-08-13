@@ -55,24 +55,26 @@ class CategoryController extends AbstractActionController
 
     public function updateCategoryAction(){
         
-        $categoryId = (int) $this->params()->fromRoute('id', 0);
+        $id = (int) $this->params()->fromRoute('id', 0);
         $category = null;
-        if (!$categoryId) {
+        if (!$id) {
             return $this->redirect()->toRoute('products/shop', array('controller'=>'category', 'action' => 'addCategory'));
         }
         try {
-            $category = $this->getCategoryTable()->getCategoryById($categoryId);
-             
+            $category = $this->getCategoryTable()->getCategoryById($id);
+            
         }
         catch (\Exception $ex) {
             //$this->flashMessenger()->addErrorMessage("No se encontró una serie con el id: ". $id.".");
+            echo "Hubo un error"; exit;
             return $this->redirect()->toRoute('products/shop', array('controller'=>'category', 'action' => 'index'));
             
         }
          
         $form  = new CategoryForm();
         $form->bind($category);
-         
+        $form->get('category_id')->setAttribute('value', $category->categoryId);
+        $form->get('category_name')->setAttribute('value', $category->categoryName); 
         $form->get('submit')->setAttribute('value', 'Editar');
 
         $request = $this->getRequest();
@@ -81,13 +83,15 @@ class CategoryController extends AbstractActionController
             $form->setInputFilter($category->getInputFilter());
             $form->setData($request->getPost());
 
+
             if ($form->isValid()) {
                 $this->getCategoryTable()->addCategory($category);
                 return $this->redirect()->toRoute('products/shop', array('controller'=>'category', 'action' => 'index'));
             }
         }
+        
         return array(
-            'id' => $categoryId,
+            'id' => $id,
             'form' => $form,
         );
     }
