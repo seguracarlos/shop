@@ -1,0 +1,22 @@
+<?php
+ // module/Album/view/album/album/add.phtml:
+
+ $title = 'Add new Rol';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <?php
+ $form->setAttribute('action', $this->url('users/shop', array('controller' => 'roles','action' => 'addRoles')));
+ $form->prepare();
+
+ echo $this->form()->openTag($form);
+ // o echo $this->formCollection($form);
+ echo $this->formHidden($form->get('rol_id'));
+  echo "<br/>";
+ echo $this->formRow($form->get('rol_name'));
+  echo "<br/>";
+ echo $this->formRow($form->get('description'));
+  echo "<br/>";
+ echo $this->formSubmit($form->get('submit'));
+ echo $this->form()->closeTag();
+ ?>

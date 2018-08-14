@@ -1,42 +1,43 @@
+
 <?php
- // module/Album/view/album/album/index.phtml:
+ 
  $title = 'My rol';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
  <p>
-<a class="btn btn-success" name="button2" type="button" 
-    value="ALERTA" href="<?php  echo $this->basePath() ?>/users/users/registroRol">Create </a>			
-</p>
+    <a class="btn btn-info"  href="<?php  echo $this->url('users/shop', array('controller'=>'roles','action'=>'addRoles'));?>">Create </a>          
+ </p>
  
-<table style="width:400px; text-align:left">
+
+<table class="table">
    <tr>
         <th>ID</th>
         <th>Rol_Name</th>
-	    <th>Description</th>
+        <th>Description</th>
         
     </tr>
-	<?php foreach ($this->datos as $dato){?>
-	     <tr style="background-color:<?php echo $this->cycle(array("#FFDAB9","#FFFFFF"))->next()?>">
-		 <td><?php echo $dato["id"] ?></td>
-		 <td><?php echo $dato["rol_name"] ?></td>
-		 <td><?php echo $dato["description"] ?></td>
-    
-         <td><a class="btn btn-primary"  name="button2" type="button" 
-                             value="ALERTA" href="<?php echo $this->basePath() ?>/users/roles/edit/<?php echo $dato["id"]?>">Edit</a></td>
-                             
-         <td><a class="btn btn-danger" id="1" name="button2" type="button" 
-                            value="ALERTA" href="<?php echo $this->basePath() ?>/users/roles/delete/<?php echo $dato["id"]?>">Deleite</a></td>
-							
-	           
-		  </tr>
-	<?php }?> 
-	<?php
-	$this->cycle()->assign(array("#FFDAB9","#FFFFFF"));
-	$this->cycle()->prev();
-	?>
-</table>
-
-
-
+    <?php foreach ($roles as $roles): ?>
+         <tr>
+    <td> <?php echo $this->escapeHtml($roles->rolId);?></td>
+     <td> <?php echo $this->escapeHtml($roles->rolName);?></td>
+     <td><?php echo $this->escapeHtml($roles->description);?></td>
+     <td>
+        
+      <?php $url = $this->url('users/shop', array(
+                'controller' => 'roles',
+                'action' => 'deleteRoles',
+                'rolId'     => $roles->rolId,
+            ));
+            ?>
+             <form action="<?php echo $url; ?>" method="post">
+                <a class="btn btn-success" href="<?php echo $this->url('users/shop',
+             array('controller' => 'roles', 'action'=>'updateRoles', 'id' => $roles->rolId));?>">Modificar</a>
+             <input type="hidden" name="rol_id" value="<?php echo (int) $roles->rolId; ?>" />
+                 <input class="btn btn-danger" type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro que lo deseas eliminar?')" />
+             </form>
+              </td>
+ </tr>
+ <?php endforeach; ?>
+ </table>
 

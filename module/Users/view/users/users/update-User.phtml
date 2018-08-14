@@ -1,0 +1,42 @@
+<?php
+ // module/Album/view/album/album/edit.phtml:
+ $title = 'Update Usuario';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+ <?php
+ $form = $this->form;
+ $form->setAttribute('action', $this->url(
+     'users/shop',
+     array(
+     	'controller' => 'users',
+        'action' => 'updateUser',
+        'id'     => $this->id,
+     )
+ ));
+// echo print_r($form->get('category_name'));
+ //exit;
+$form->prepare();
+ echo $this->form()->openTag($form);
+ echo $this->formHidden($form->get('user_id'));
+ echo "<br/>";
+ echo $this->formRow($form->get('rol_id'));
+ echo "<br/>";
+ echo $this->formRow($form->get('email'));
+ echo "<br/>";
+ echo $this->formRow($form->get('password'));
+ echo "<br/>";
+ /*echo $this->formRow($form->get('user_name'));
+ echo "<br/>";
+ echo $this->formRow($form->get('first_name'));
+ echo "<br/>";
+ echo $this->formRow($form->get('last_name'));
+ echo "<br/>";
+ echo $this->formRow($form->get('address'));
+ echo "<br/>";
+ echo $this->formRow($form->get('telephone'));
+ echo "<br/>";*/
+ echo $this->formSubmit($form->get('submit'));
+ echo $this->form()->closeTag();
+ ?>

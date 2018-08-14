@@ -1,0 +1,44 @@
+<?php
+
+ $title = 'My Users';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <p>
+     <a class="btn btn-info" href="<?php echo $this->url('users/shop', array('controller' => 'users', 'action'=>'addUser'));?>">Nuevo</a>
+ </p>
+
+
+ <table class="table">
+ <tr>
+    <th>Id</th>
+     <th>Rol</th>
+     <th>Email</th>
+     <th>Contraseña</th>
+     
+ </tr>
+ <?php foreach ($users as $user) : ?>
+ <tr>
+    <td><?php echo $this->escapeHtml($user->userId);?></td>
+     <td><?php echo $this->escapeHtml($user->rolId);?></td>
+     <td><?php echo $this->escapeHtml($user->email);?></td>
+     <td><?php echo $this->escapeHtml($user->password);?></td>
+     
+     <td>
+           <?php $url = $this->url('users/shop', array(
+                'controller' => 'users',
+                'action' => 'deleteUser',
+                'userId'     => $user->userId,
+            ));
+            ?>
+            <form action="<?php echo $url; ?>" method="post">
+                <a class="btn btn-success" href="<?php echo $this->url('users/shop',
+             array('controller' => 'users', 'action'=>'updateUser', 'id' => $users->userId));?>">Modificar</a>
+                 <input type="hidden" name="user_id" value="<?php echo (int) $users->userId; ?>" />
+                 <input class="btn btn-danger" type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro que lo deseas eliminar?')" />
+             </form>
+     
+     </td>
+ </tr>
+ <?php endforeach; ?>
+ </table>

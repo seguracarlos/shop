@@ -1,55 +1,54 @@
 <?php
+
 namespace Users\Form;
 
-use Zend\Captcha\AdapterInterface as CaptchaAdapter;
-use Zend\Form\Element;
 use Zend\Form\Form;
-use Zend\Captcha;
-use Zend\Form\Factory;
 
- class RolesForm extends Form {
- 	public function __construct($name =null)
+class RolesForm extends Form
+ {
+ 	public function __construct($name = null)
  	{
- 		parent::__construct($name);
+ 		parent::__construct('roles');
 
+ 		/*Caja de texto del ID de la categoria*/
  		$this->add(array(
- 			'name'=>'id',
- 			'type'=>'Hidden',
+ 			'name' =>'rol_id',
+ 			'type' => 'Hidden',
  		));
 
-	    $select=new Element\Select('rol_name');
-	    $select->setLabel('selecciona tu rol');
-	    $select->setAttribute('multiple', true);
-	    $select->setValueOptions(array(
-	             '0'=>'Encargado(jefe)',
-				 '1'=>'vendedor',
-				 
-	    ));
-	    $this->add($select);
-	
-	
+ 		$this->add(array(
+             'type' => 'Zend\Form\Element\Select',
+             'name' => 'rol_name',
+             'options' => array(
+                     'label' => 'Selecciona una Rol :',
+                     'options' => array(
+                        0 => 'Jefe(encarjado)',
+                        1 => 'Empleado',
+                     ),
+                      ),
+                 'attributes' => array(
+                'value' => 0 //set selected to "Nur Überweisung"
+             )
+        ));
+
+
  		$this->add(array(
              'name' => 'description',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Descripcion',
+                 'label' => 'Descripcion :',
              ),
-             'attributes'=> array(
- 				'type' => 'textarea',
- 				'class' => 'input',
- 				'required' =>true,
- 				'id' 	=> 'description'
- 			),
+             
          ));
 
  		
  		$this->add(array(
-	        'name'=>'zend',
-	        'attributes'=>array(
-	        'type'=>'submit',
-		    'value'=>'Enviar',
-		    'title'=>'Enviar'
-		 ),
+             'name' => 'submit',
+             'type' => 'Submit',
+             'attributes' => array(
+                 'value' => 'Guardar',
+                 'id' => 'submitbutton',
+             ),
 		 ));
  	}
  

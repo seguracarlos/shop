@@ -1,64 +1,90 @@
 <?php
+ namespace Users\Model;
 
-namespace Users\Model;
+ use Zend\InputFilter\InputFilter;
+ use Zend\InputFilter\InputFilterAwareInterface;
+ use Zend\InputFilter\InputFilterInterface;
 
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
-use Zend\Db\ResultSet\ResultSet;
+class Roles implements InputFilterAwareInterface{
+    public $rolId;
+    public $rolIame;
+    public $description;
+    protected $inputFilter;
 
-class Roles extends TableGateway
-{
-	private $id;
-	private $rol_name;
-	private $description;
 
-	public function __construct(Adapter $adapter = null, $databaseSchema=null,ResultSet $selectResultPrototype =null){
-		return parent::__construct('roles',$adapter, $databaseSchema,$selectResultPrototype);	
-	}
+     public function exchangeArray($data)
+    {
 
-	private function cargaAtributos($datos=array()){
-         $this->id=$datos["id"];
-		 $this->rol_name=$datos["rol_name"];
-		 $this->description=$datos["description"];
-	}
-
-	public function  getRoles(){
-		$datos=$this->select();
-		return $datos->toArray();
-	}
-
-	public function getRolesPorId($id){
-		$id=(int) $id;
-		$rowset=$this->select(array('id'=>$id));
-		$row=$rowset->current();
-		if(!$row){
-			throw new \Exception("no hay registros asignados al valor $id");
-		}
-		return $row;
-	}
-
-	public function addRoles($data=array()){
-		self::cargaAtributos($data);
-		$array=array(
-		    "rol_name"=>$this->rol_name,
-		    "description"=>$this->description,
-		);
-		$this->insert($array);
-	}
-
-	public function updateRoles($id,$rol_name,$description){
-		$update=$this->update(array(
-			"rol_name"=>$rol_name,
-			"description"=>$description,
-		),
-		array("id"=>$id));
-		return $update;
-
-	}
-	 public function deleteRoles($id){
-         $delete=$this->delete(array("id"=>$id));
-         return $delete;
-        }
+         $this->rolId     = (!empty($data['rol_id'])) ? $data['rol_id'] : null;
+         $this->rolName     = (!empty($data['rol_name'])) ? $data['rol_name'] : null;
+         $this->description     = (!empty($data['description'])) ? $data['description'] : null;
+        
     }
-    ?>
+
+    public function getArrayCopy()
+     {
+         return get_object_vars($this);
+     }
+     public function setInputFilter(InputFilterInterface $inputFilter)
+     {
+         throw new \Exception("Not used");
+     }
+     public function getInputFilter()
+     {
+         if (!$this->inputFilter) {
+             $inputFilter = new InputFilter();
+
+             $inputFilter->add(array(
+                 'name'     => 'rol_id',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'Int'),
+                 ),
+             ));
+
+             $inputFilter->add(array(
+                 'name'     => 'rol_name',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 45,
+                         ),
+                     ),
+                 ),
+             ));
+
+             $inputFilter->add(array(
+                 'name'     => 'description',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 200,
+                         ),
+                     ),
+                 ),
+             ));
+
+             $this->inputFilter = $inputFilter;
+         }
+
+         return $this->inputFilter;
+     }
+ }
+
+ ?>

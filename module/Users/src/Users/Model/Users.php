@@ -3,90 +3,206 @@
  namespace Users\Model;
 
   // Add these import statements
-  use Zend\Db\TableGateway\TableGateway;
-  use Zend\Db\Adapter\Adapter;
-  use Zend\Db\Sql\Sql;
-  use Zend\Db\ResultSet\ResultSet;
+ use Zend\InputFilter\InputFilter;
+ use Zend\InputFilter\InputFilterAwareInterface;
+ use Zend\InputFilter\InputFilterInterface;
 
- class Users extends TableGateway
+
+ class Users implements InputFilterAwareInterface
  {
-     private $id;
-     private $rol_id;
-     private $email;
-     private $password;
-     private $user_name;
-     private $first_name;
-     private $last_name;
-     private $address;
-     private $telephone;
+     public $userId;
+     public $rolId;
+     public $email;
+     public $password;
+     /*public $userName;
+     public $firstName;
+     public $lastName;
+     public $address;
+     public $telephone;*/
+     protected $inputFilter;
   
 
-    public function __construct(Adapter $adapter = null, $databaseSchema = null,
-      ResultSet $selectResultPrototype = null)
-    {
-        return parent::__construct('users',$adapter, $databaseSchema,$selectResultPrototype);   
-    }
 
-    private function cargaAtributos($datos=array()){
-         $this->id=$datos["id"];
-         $this->rol_id=$datos["rol_id"];
-         $this->email=$datos["email"];
-         $this->password=$datos["password"];
-         $this->user_name=$datos["user_name"];
-         $this->first_name=$datos["first_name"];
-         $this->last_name=$datos["last_name"];
-         $this->address=$datos["address"];
-         $this->telephone=$datos["telephone"];
-    }
+    public function exchangeArray($data)
+     {
+         $this->userId     = (!empty($data['user_id'])) ? $data['user_id'] : null;
+         $this->rolId     = (!empty($data['rol_id'])) ? $data['rol_id']:null;
+         $this->email = (!empty($data['email'])) ? $data['email'] : null;
+         $this->password  = (!empty($data['password'])) ? $data['password'] : null;
+         /*$this->userName  = (!empty($data['user_name'])) ? $data['user_name'] : null;
+         $this->firstName     = (!empty($data['first_name'])) ? $data['first_name'] : null;
+         $this->lastName = (!empty($data['last_name'])) ? $data['last_name'] : null;
+         $this->address  = (!empty($data['address'])) ? $data['address'] : null;
+         $this->telephone  = (!empty($data['telephone'])) ? $data['telephone'] : null;*/
+     }
 
-    public function  getUser(){
-        $datos=$this->select();
-        return $datos->toArray();
-    }
+  
 
-    public function getUserPorId($id){
-        $id=(int) $id;
-        $rowset=$this->select(array('id'=>$id));
-        $row=$rowset->current();
-        if(!$row){
-            throw new \Exception("no hay registros asignados al valor $id");
-        }
-        return $row;
-    }
+     public function getArrayCopy()
+     {
+         return get_object_vars($this);
+     }
 
-    public function addUser($data=array()){
-        self::cargaAtributos($data);
-        $array=array(
-            "rol_id"=>$this->rol_id,
-            "email"=>$this->email,
-            "password"=>$this->password,
-            "user_name"=>$this->user_name,
-            "first_name"=>$this->first_name,
-            "last_name"=>$this->last_name,
-            "address"=>$this->address,
-            "telephone"=>$this->telephone,
-        );
-        $this->insert($array);
-    }
+   public function setInputFilter(InputFilterInterface $inputFilter)
+     {
+         throw new \Exception("Not used");
+     }
 
-    public function updateUser($id,$rol_id,$email,$password,$user_name,$first_name,$last_name,$address,$telphone){
-        $update=$this->update(array(
-            "rol_id"=>$rol_id,
-            "email"=>$email,
-            "password"=>$password,
-            "user_name"=>$user_name,
-            "first_name"=>$first_name,
-            "last_name"=>$last_name,
-            "address"=>$address,
-            "telephone"=>$telephone,
-        ),
-        array("id"=>$id));
-        return $update;
+   public function getInputFilter()
+     {
+         if (!$this->inputFilter) {
+             $inputFilter = new InputFilter();
 
-    }
-     public function deleteUser($id){
-         $delete=$this->delete(array("id"=>$id));
-         return $delete;
-        }
-    }
-    ?>
+             $inputFilter->add(array(
+                 'name'     => 'user_id',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'Int'),
+                 ),
+             ));
+             $inputFilter->add(array(
+                 'name'     => 'rol_id',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'Int'),
+                 ),
+             ));
+
+             $inputFilter->add(array(
+                 'name'     => 'email',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 50,
+                         ),
+                     ),
+                 ),
+             ));
+
+             $inputFilter->add(array(
+                 'name'     => 'password',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 50,
+                         ),
+                     ),
+                 ),
+             ));
+
+                /*$inputFilter->add(array(
+                 'name'     => 'user_name',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 50,
+                         ),
+                     ),
+                 ),
+             ));
+                   $inputFilter->add(array(
+                 'name'     => 'first_name',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 50,
+                         ),
+                     ),
+                 ),
+             ));
+
+             $inputFilter->add(array(
+                 'name'     => 'last_name',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 50,
+                         ),
+                     ),
+                 ),
+             ));
+                $inputFilter->add(array(
+                 'name'     => 'address',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 200,
+                         ),
+                     ),
+                 ),
+             ));
+                   $inputFilter->add(array(
+                 'name'     => 'telephone',
+                 'required' => true,
+                 'filters'  => array(
+                     array('name' => 'StripTags'),
+                     array('name' => 'StringTrim'),
+                 ),
+                 'validators' => array(
+                     array(
+                         'name'    => 'StringLength',
+                         'options' => array(
+                             'encoding' => 'UTF-8',
+                             'min'      => 1,
+                             'max'      => 50,
+                         ),
+                     ),
+                 ),
+             ));*/
+
+             $this->inputFilter = $inputFilter;
+         }
+
+         return $this->inputFilter;
+     }
+ }
+
+ ?>
