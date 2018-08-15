@@ -1,1 +1,47 @@
-<h1>Página principal de Productos</h1>
+<?php
+
+ $title = 'Productos';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <br/>
+ <br/>
+ <p>
+     <a class="btn btn-info" href="<?php echo $this->url('products/shop', array('controller' => 'products', 'action'=>'addProduct'));?>">Nuevo</a>
+     
+ </p>
+
+ <table class="table">
+ <tr>
+     <th>ID</th>
+     <th>Categoria</th>
+     <th>Descripción</th>
+     <th>Código de barras</th>
+     <th>Imagen</th>
+ </tr>
+ <?php foreach ($products as $product) : ?>
+ <tr>
+     <td> <?php echo $this->escapeHtml($product['product_id']);?></td>
+     <td><?php echo $this->escapeHtml($product['categoria']);?></td>
+     <td><?php echo $this->escapeHtml($product['description']);?></td>
+     <td><?php echo $this->escapeHtml($product['barcode']);?></td>
+     <td><?php echo $this->escapeHtml($product['image']);?></td>
+     <td>
+             <?php $url = $this->url('products/shop', array(
+                'controller' => 'products',
+                'action' => 'deleteProduct',
+                'productId'     => $product['product_id'],
+            ));
+            ?>
+            <form action="<?php echo $url; ?>" method="post">
+                <a class="btn btn-success" href="<?php echo $this->url('products/shop',
+             array('controller' => 'products', 'action'=>'updateProduct', 'id' => $product['product_id']));?>">Editar</a>
+                 <input type="hidden" name="product_id" value="<?php echo (int) $product['product_id']; ?>" />
+                 <input class="btn btn-danger" type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro que lo deseas eliminar?')" />
+             </form>
+             
+        
+     </td>
+ </tr>
+ <?php endforeach; ?>
+ </table>

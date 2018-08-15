@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 namespace Products\Form;
 
@@ -11,7 +11,7 @@ use Zend\Form\Form;
  		parent::__construct('product');
  		//ID del producto
  		$this->add(array(
-             'name' => 'productId',
+             'name' => 'product_id',
              'type' => 'Hidden',
          ));
  		//Lista desplegables con las categorias (llena desde la base)

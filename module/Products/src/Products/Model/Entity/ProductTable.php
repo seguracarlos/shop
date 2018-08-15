@@ -23,11 +23,11 @@ namespace Products\Model\Entity;
 
      public function getProductById($productId)
      {
-         $productId  = (int) $id;
+         $productId  = (int) $productId;
          $rowset = $this->tableGateway->select(array('product_id' => $productId));
          $row = $rowset->current();
          if (!$row) {
-             throw new \Exception("Could not find row $productId");
+             throw new \Exception("No se encontró la columna con el ID: $productId");
          }
          return $row;
      }
@@ -37,14 +37,14 @@ namespace Products\Model\Entity;
         $sql = new Sql($this->tableGateway->getAdapter());
         $select = new Select();
         $select->from(array('p' => 'product'))  // tabla base
-            ->join(array('c' => 'category'), 'p.product_id = c.category_id', array('categ' => 'category_name'));   // join tabla de unión con alias
+            ->join(array('c' => 'category'), 'c.category_id = p.category_id', array('categoria' => 'category_name'));   // join tabla de unión con alias
         $statement = $sql->prepareStatementForSqlObject($select);
         $results = $statement->execute();
         
         return $results;
      }
 
-     public function saveProduct(Product $product)
+     public function addProduct(Product $product)
      {
          $data = array(
              'category_id'  => $product->categoryId,

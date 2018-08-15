@@ -1,0 +1,31 @@
+<?php
+
+ $title = 'Modificar Producto';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <?php
+ $form = $this->form;
+ $form->setAttribute('action', $this->url(
+     'products/shop',
+     array(
+     	'controller' => 'products',
+        'action' => 'updateProduct',
+        'id'     => $this->id,
+     )
+ ));
+$form->prepare();
+ echo $this->form()->openTag($form);
+ echo $this->formHidden($form->get('product_id'));
+ echo "<br/>";
+ echo $this->formRow($form->get('category_id'));
+ echo "<br/>";
+ echo $this->formRow($form->get('description'));
+ echo "<br/>";
+ echo $this->formRow($form->get('barcode'));
+ echo "<br/>";
+ echo $this->formRow($form->get('image'));
+ echo "<br/>";
+ echo $this->formSubmit($form->get('submit'));
+ echo $this->form()->closeTag();
+ 

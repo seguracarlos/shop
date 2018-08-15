@@ -4,7 +4,7 @@ namespace Products\Model\Entity;
  use Zend\InputFilter\InputFilterAwareInterface;
  use Zend\InputFilter\InputFilterInterface;
 
-class Usuarios extends Tablegateway
+class Product implements InputFilterAwareInterface
 {
 	 public $productId;
      public $categoryId;
@@ -80,7 +80,7 @@ class Usuarios extends Tablegateway
              
              $inputFilter->add(array(
                  'name'     => 'image',
-                 'required' => true,
+                 'required' => false,
                  'filters'  => array(
                      array('name' => 'StripTags'),
                      array('name' => 'StringTrim'),
