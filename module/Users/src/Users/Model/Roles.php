@@ -7,7 +7,7 @@
 
 class Roles implements InputFilterAwareInterface{
     public $rolId;
-    public $rolIame;
+    public $rolName;
     public $description;
     protected $inputFilter;
 
@@ -38,7 +38,7 @@ class Roles implements InputFilterAwareInterface{
                  'name'     => 'rol_id',
                  'required' => true,
                  'filters'  => array(
-                     array('name' => 'Int'),
+                    array('name' => 'Int'),
                  ),
              ));
 

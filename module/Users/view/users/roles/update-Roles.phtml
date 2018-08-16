@@ -1,19 +1,15 @@
 <?php
  // module/Album/view/album/album/edit.phtml:
 
- $title = 'Edit rol';
+ $title = 'Modificar Rol';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
 
  <?php
  $form = $this->form;
- $form->setAttribute('action', $this->url(
-     'roles/shop',
-     array(
-     	'controller' => 'roles',
-         'action' => 'updateRoles',
-         'id'     => $this->rolId,
+ $form->setAttribute('action', $this->url('users/shop',array('controller' => 'roles','action' => 'updateRoles',
+         'id'     => $this->id,
      )
  ));
  $form->prepare();

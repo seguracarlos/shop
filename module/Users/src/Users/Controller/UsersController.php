@@ -17,6 +17,7 @@ use Users\Model\Users;
 class UsersController extends AbstractActionController
 {
     protected $usersTable;
+    protected $rolesTable;
 
      public function getUsersTable()
      {
@@ -27,17 +28,39 @@ class UsersController extends AbstractActionController
          return $this->usersTable;
      }
 
+     public function getRolesTable(){
+        if(!$this->rolesTable){
+            $sm = $this->getServiceLocator();
+            $this->rolesTable = $sm->get('Users\Model\RolesTable');
+        }
+        return $this->rolesTable;        
+    }
 
-     public function indexAction()
-     {
-          return new ViewModel(array(
-               'users' => $this->getUsersTable()->fetchAll(),
-          ));
+
+
+     private function setFormSelectOptions($formRoles, $valueDefault){
+        $rol = array();
+        foreach ($this->getRolesTable()->fetchAll() as $roles)
+        {
+            $rol += array($roles->rolId => $roles->rolName );
+        }
+        $formRoles->get('rol_id')->setValueOptions($rol);
+        if($valueDefault != 0){
+            $formRoles->get('rol_id')->setValue($valueDefault);            
+        }
+        return $formRoles;
+    }
+
+
+     public function indexAction(){
+        $users = $this->getUsersTable()->getAllUsersWithRoles();
+        return new ViewModel(array('users' => $users));
+          
      }
 
      public function addUserAction(){
         $form = new UsersForm();
-        
+        $form = $this->setFormSelectOptions($form, 0);
         $request = $this->getRequest();
         if ($request->isPost()) {
             $users = new Users();
@@ -47,7 +70,6 @@ class UsersController extends AbstractActionController
             if ($form->isValid()) {
                 $users->exchangeArray($form->getData());
                 $this->getUsersTable()->addUser($users);
-                //$this->flashMessenger()->addSuccessMessage("Se guardó correctamente la serie ". $serie->model.".");
                 return $this->redirect()->toRoute('users/shop', array('controller'=>'users', 'action' => 'index'));
                 
             }
@@ -57,27 +79,28 @@ class UsersController extends AbstractActionController
 
     public function updateUserAction(){
         
-        $userId = (int) $this->params()->fromRoute('user_id', 0);
+        $id = (int) $this->params()->fromRoute('id', 0);
         $users = null;
-        if (!$userId) {
+        if (!$id) {
             return $this->redirect()->toRoute('users/shop', array('controller'=>'users', 'action' => 'addUser'));
         }
         try {
-            $users = $this->getUsersTable()->getUserById($userId);
+            $users = $this->getUsersTable()->getUserById($id);
             
         }
          catch (\Exception $ex) {
-            //$this->flashMessenger()->addErrorMessage("No se encontró una serie con el id: ". $id.".");
             echo "Hubo un error"; exit;
             return $this->redirect()->toRoute('users/shop', array('controller'=>'users', 'action' => 'index'));
             
         }
         $form  = new UsersForm();
+        $form = $this->setFormSelectOptions($form, $users->rolId);
         $form->bind($users);
         $form->get('user_id')->setAttribute('value', $users->userId);
-        $form->get('rol_id')->setAttribute('value', $users->rolId);
-        $form->get('email')->setAttribute('value', $users->email); 
-        $form->get('password')->setAttribute('value', $users->password);
+        
+        //$form->get('rol_id')->setAttribute('value', $users->rolId);
+        //$form->get('email')->setAttribute('value', $users->email); 
+        //$form->get('password')->setAttribute('value', $users->password);
         /*$form->get('user_name')->setAttribute('value', $users->user_name);
         $form->get('first_name')->setAttribute('value', $users->firstName);
         $form->get('last_name')->setAttribute('value', $users->lastName);
@@ -97,7 +120,7 @@ class UsersController extends AbstractActionController
             }
         }
            return array(
-            'user_id' => $userId,
+            'id' => $id,
             'form' => $form,
         );
     }

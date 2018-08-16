@@ -55,30 +55,32 @@ class RolesController extends AbstractActionController
 
     public function updateRolesAction(){
         
-        $rolId = (int) $this->params()->fromRoute('rolId', 0);
+        $id = (int) $this->params()->fromRoute('id', 0);
         $roles = null;
-        if (!$rolId) {
-            return $this->redirect()->toRoute('users/shop', array('controller'=>'roles', 'action' => 'updateRoles'));
+        if (!$id) {
+            return $this->redirect()->toRoute('users/shop', array('controller'=>'roles', 'action' => 'addRoles'
+        ));
         }
         try {
-            $roles = $this->getRolesTable()->getRolesById($rolId);
+            $roles = $this->getRolesTable()->getRolesById($id);
+            //$roles = $this->getRolesTable()->getRoles($rolId);
              
         }
-        catch (\Exception $ex) {
-            //$this->flashMessenger()->addErrorMessage("No se encontró una serie con el id: ". $id.".");
+         catch (\Exception $ex) {
+            echo "Hubo un error"; exit;
             return $this->redirect()->toRoute('users/shop', array('controller'=>'roles', 'action' => 'index'));
             
         }
          
-        $form  = new RolesForm();
-        /*$form->bind($roles);
+       $form  = new RolesForm();
+        $form->bind($roles);
         $form->get('rol_id')->setAttribute('value', $roles->rolId);
-        $form->get('rol_name')->setAttribute('value', $roles->rolName);*/ 
+        $form->get('rol_name')->setAttribute('value', $roles->rolName);
+        //$form->get('description')->setAttribute('value', $roles->description);
         $form->get('submit')->setAttribute('value', 'Editar');
 
         $request = $this->getRequest();
-
-        if ($request->isPost()) {
+         if ($request->isPost()) {
             $form->setInputFilter($roles->getInputFilter());
             $form->setData($request->getPost());
 
@@ -88,7 +90,7 @@ class RolesController extends AbstractActionController
             }
         }
         return array(
-            'id' => $rolId,
+            'id' => $id,
             'form' => $form,
         );
     }

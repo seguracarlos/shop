@@ -24,9 +24,7 @@
      <td><?php echo $this->escapeHtml($roles->description);?></td>
      <td>
         
-      <?php $url = $this->url('users/shop', array(
-                'controller' => 'roles',
-                'action' => 'deleteRoles',
+      <?php $url = $this->url('users/shop', array('controller' => 'roles','action' => 'deleteRoles',
                 'rolId'     => $roles->rolId,
             ));
             ?>

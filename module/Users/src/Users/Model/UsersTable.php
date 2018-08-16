@@ -22,23 +22,23 @@
          return $resultSet;
      }
 
-     public function getUserById($id)
+     public function getUserById($userId)
      {
          $userId  = (int) $userId;
          $rowset = $this->tableGateway->select(array('user_id' => $userId));
          $row = $rowset->current();
          if (!$row) {
-             throw new \Exception("Could not find row $id");
+             throw new \Exception("Could not find row $iserId");
          }
          return $row;
      }
 
-      public function getAllUsersWithRoles(){
+       public function getAllUsersWithRoles(){
         
         $sql = new Sql($this->tableGateway->getAdapter());
         $select = new Select();
-        $select->from(array('u' => 'users'))  // tabla base
-            ->join(array('r' => 'roles'), 'c.user_id = r.roles_id', array('user' => 'user_name'));   // join tabla de unión con alias
+        $select->from(array('u' => 'users'))
+        ->join(array('r' => 'roles'), 'r.rol_id = u.rol_id', array('roles' => 'rol_name'));    
         $statement = $sql->prepareStatementForSqlObject($select);
         $results = $statement->execute();
         

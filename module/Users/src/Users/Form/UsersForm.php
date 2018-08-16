@@ -20,12 +20,7 @@
              'options' => array(
                      'label' => 'Selecciona una Rol',
                      'value_options' => array(
-                        1 => 'Jefe(encarjado)',
-                        2 => 'Empleado',
                      ),
-                      ),
-                 'attributes' => array(
-                'value' => 0 //set selected to "Nur Überweisung"
              )
         ));
 

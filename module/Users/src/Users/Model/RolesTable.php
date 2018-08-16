@@ -22,7 +22,7 @@
          return $resultSet;
      }
 
-     public function getRolesById($rolid)
+     public function getRolesById($rolId)
      {
          $rolId  = (int) $rolId;
          $rowset = $this->tableGateway->select(array('rol_id' => $rolId));

@@ -10,7 +10,6 @@ class RolesForm extends Form
  	{
  		parent::__construct('roles');
 
- 		/*Caja de texto del ID de la categoria*/
  		$this->add(array(
  			'name' =>'rol_id',
  			'type' => 'Hidden',
@@ -21,14 +20,12 @@ class RolesForm extends Form
              'name' => 'rol_name',
              'options' => array(
                      'label' => 'Selecciona una Rol :',
-                     'options' => array(
-                        0 => 'Jefe(encarjado)',
-                        1 => 'Empleado',
+                     'value_options' => array(
+                        'Jefe' => 'Jefe',
+                        'Encargado' => 'Encargado',
+                        'Empleado' => 'Empleado',
                      ),
                       ),
-                 'attributes' => array(
-                'value' => 0 //set selected to "Nur Überweisung"
-             )
         ));
 
 
@@ -38,7 +35,6 @@ class RolesForm extends Form
              'options' => array(
                  'label' => 'Descripcion :',
              ),
-             
          ));
 
  		
@@ -51,6 +47,5 @@ class RolesForm extends Form
              ),
 		 ));
  	}
- 
  }
  ?>

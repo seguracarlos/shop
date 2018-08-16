@@ -82,7 +82,7 @@ return array(
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
         'template_path_stack' => array(
-            'smartphone' => __DIR__ . '/../view',
+            'users' => __DIR__ . '/../view',
         ),
     ),
 

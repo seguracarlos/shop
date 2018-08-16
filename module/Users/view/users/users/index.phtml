@@ -12,29 +12,29 @@
  <table class="table">
  <tr>
     <th>Id</th>
-     <th>Rol</th>
+    <th>Rol</th>
      <th>Email</th>
      <th>Contraseña</th>
      
  </tr>
  <?php foreach ($users as $user) : ?>
  <tr>
-    <td><?php echo $this->escapeHtml($user->userId);?></td>
-     <td><?php echo $this->escapeHtml($user->rolId);?></td>
-     <td><?php echo $this->escapeHtml($user->email);?></td>
-     <td><?php echo $this->escapeHtml($user->password);?></td>
+    <td><?php echo $this->escapeHtml($user['user_id']);?></td>
+     <td><?php echo $this->escapeHtml($user['rol_id']);?></td>
+     <td><?php echo $this->escapeHtml($user['email']);?></td>
+     <td><?php echo $this->escapeHtml($user['password']);?></td>
      
      <td>
            <?php $url = $this->url('users/shop', array(
                 'controller' => 'users',
                 'action' => 'deleteUser',
-                'userId'     => $user->userId,
+                'userId'     => $user['user_id'],
             ));
             ?>
             <form action="<?php echo $url; ?>" method="post">
                 <a class="btn btn-success" href="<?php echo $this->url('users/shop',
-             array('controller' => 'users', 'action'=>'updateUser', 'id' => $users->userId));?>">Modificar</a>
-                 <input type="hidden" name="user_id" value="<?php echo (int) $users->userId; ?>" />
+             array('controller' => 'users', 'action'=>'updateUser', 'id' => $user['user_id']));?>">Modificar</a>
+                 <input type="hidden" name="user_id" value="<?php echo (int) $user['user_id']; ?>" />
                  <input class="btn btn-danger" type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro que lo deseas eliminar?')" />
              </form>
      
