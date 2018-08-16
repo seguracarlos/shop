@@ -71,7 +71,7 @@
          }
      }
 
-     public function deleteUser($id)
+     public function deleteUser($userId)
      {
          $this->tableGateway->delete(array('user_id' => (int) $userId));
      }
