@@ -19,17 +19,35 @@
              'name' => 'rol_id',
              'options' => array(
                      'label' => 'Selecciona una Rol',
-                     'value_options' => array(
+                     'label_attributes' => array(
+                        //'class' => '',
+                        'for' => 'rol_id', 
                      ),
-             )
+                      
+             ),
+             'attributes' => array(
+                'id' => 'rol_id',
+                'class' => 'form-control',
+             ),
         ));
 
         $this->add(array(
              'name' => 'email',
-             'type' => 'Text',
+             'type' => 'Email',
              'options' => array(
                  'label' => 'Email',
-             ),
+             'label_attributes' => array(
+                    'class' => 'Email',
+                    'for' => 'users_email', 
+                    'placeholder'=> 'String,name@example.com',
+                 ),
+         ),
+        'attributes' => array(
+                     'class' => 'form-control',
+                     'id' => 'users_email',
+                     'placeholder'=> 'String,name@example.com',
+                     
+             )
               
          ));
         $this->add(array(
@@ -37,48 +55,21 @@
              'type' => 'Text',
              'options' => array(
                  'label' => 'Contraseña',
+                 'label_attributes' => array(
+                    'class' => 'Contraseña',
+                    'for' => 'users_password', 
+                    'placeholder'=> 'Password',
+                 ),
              ),
-         ));
-        /*$this->add(array(
-             'name' => 'user_name',
-             'type' => 'Text',
-             'options' => array(
-                 'label' => 'Nombre de Usuario;',
-             ),
+                 'attributes' => array(
+                     'class' => 'form-control',
+                     'id' => 'users_password',
+                     'placeholder'=> 'Password',
+                     
              
-         ));
-        $this->add(array(
-             'name' => 'first_name',
-             'type' => 'Text',
-             'options' => array(
-                 'label' => 'Nombre;',
              ),
-             
          ));
-        $this->add(array(
-             'name' => 'last_name',
-             'type' => 'Text',
-             'options' => array(
-                 'label' => 'Apellido',
-             ),
-             
-         ));
-        $this->add(array(
-             'name' => 'address',
-             'type' => 'Text',
-             'options' => array(
-                 'label' => 'Direccion',
-             ),
-             
-         ));
-        $this->add(array(
-             'name' => 'telephone',
-             'type' => 'Text',
-             'options' => array(
-                 'label' => 'Telefono:',
-             ),
-
-         ));*/
+        
         $this->add(array(
              'name' => 'submit',
              'type' => 'Submit',

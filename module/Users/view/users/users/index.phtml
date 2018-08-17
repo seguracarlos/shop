@@ -1,6 +1,6 @@
 <?php
 
- $title = 'My Users';
+ $title = 'Usuarios';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
@@ -13,16 +13,16 @@
  <tr>
     <th>Id</th>
     <th>Rol</th>
-     <th>Email</th>
-     <th>Contraseña</th>
+     <th>Correo Electronico</th>
+     
      
  </tr>
  <?php foreach ($users as $user) : ?>
  <tr>
     <td><?php echo $this->escapeHtml($user['user_id']);?></td>
-     <td><?php echo $this->escapeHtml($user['rol_id']);?></td>
+     <td><?php echo $this->escapeHtml($user['roles']);?></td>
      <td><?php echo $this->escapeHtml($user['email']);?></td>
-     <td><?php echo $this->escapeHtml($user['password']);?></td>
+     
      
      <td>
            <?php $url = $this->url('users/shop', array(

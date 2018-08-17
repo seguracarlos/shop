@@ -1,7 +1,8 @@
 <?php
- // module/Album/view/album/album/add.phtml:
+$this->headScript()
+            ->prependFile($this->basePath() . '/js/users/roles/roles.js');
 
- $title = 'Add new Rol';
+ $title = 'Agregar Nuevo Rol';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>

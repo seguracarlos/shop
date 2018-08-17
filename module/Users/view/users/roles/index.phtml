@@ -1,7 +1,11 @@
 
 <?php
  
- $title = 'My rol';
+ $this->headScript()
+            ->prependFile($this->basePath() . '/js/users/roles/roles.js');
+ setlocale(LC_MONETARY, 'es_MX.UTF-8');
+
+ $title = 'Perfil';
  $this->headTitle($title);
  ?>
  <h1><?php echo $this->escapeHtml($title); ?></h1>
@@ -13,8 +17,8 @@
 <table class="table">
    <tr>
         <th>ID</th>
-        <th>Rol_Name</th>
-        <th>Description</th>
+        <th>Perfil</th>
+        <th>Descripcion</th>
         
     </tr>
     <?php foreach ($roles as $roles): ?>
