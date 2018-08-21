@@ -67,6 +67,7 @@ return array(
         'invokables' => array(
             'Products\Controller\Products' => 'Products\Controller\ProductsController',
             'Products\Controller\Category' => 'Products\Controller\CategoryController',
+			'Products\Controller\Sale'     => 'Products\Controller\SaleController'
         ),
     ),
     'view_manager' => array(
