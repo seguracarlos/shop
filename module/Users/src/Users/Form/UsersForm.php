@@ -18,7 +18,7 @@
              'type' => 'Zend\Form\Element\Select',
              'name' => 'rol_id',
              'options' => array(
-                     'label' => 'Selecciona una Rol',
+                     'label' => 'Selecciona una Rol : ',
                      'label_attributes' => array(
                         //'class' => '',
                         'for' => 'rol_id', 
@@ -35,7 +35,7 @@
              'name' => 'email',
              'type' => 'Email',
              'options' => array(
-                 'label' => 'Email',
+                 'label' => 'Email :',
              'label_attributes' => array(
                     'class' => 'Email',
                     'for' => 'users_email', 
@@ -54,7 +54,7 @@
              'name' => 'password',
              'type' => 'Text',
              'options' => array(
-                 'label' => 'Contraseña',
+                 'label' => 'Contraseña :',
                  'label_attributes' => array(
                     'class' => 'Contraseña',
                     'for' => 'users_password', 

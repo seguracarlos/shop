@@ -20,7 +20,7 @@ class RolesForm extends Form
              'type'=>'text',
              'name' => 'rol_name',
              'options' => array(
-                     'label' => 'Selecciona una Rol :',
+                     'label' => 'Ingresa el Rol :',
                      'label_attributes' => array(
                         'class' => '',
                         'for' => 'rol_model', 
